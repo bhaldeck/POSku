@@ -20,21 +20,7 @@ class barang extends CI_Controller {
     
     public function add()
 	{
-        $this->form_validation->set_rules('barcode', 'barcode', 'trim|required|alpha_numeric|min_length[3]|is_unique[barang.barcode]');
-        $this->form_validation->set_rules('nama_brg', 'Nama Barang', 'trim|required|alpha_numeric_spaces|is_unique[barang.barang_nama]');
-        $this->form_validation->set_rules('kategori_id', 'Kategori', 'required');
-        $this->form_validation->set_rules('satuan_id', 'Satuan', 'required');
-        $this->form_validation->set_rules('harga', 'Harga', 'required|is_natural');
-
-        $this->form_validation->set_message('required', '%s harus diisi.');
-        $this->form_validation->set_message('min_length', '{field} minimal harus berisi {param} karakter.');
-        $this->form_validation->set_message('is_unique', 'Kode {field} sudah ada. Silahkan ganti');
-        $this->form_validation->set_message('alpha_numeric_spaces', '{field} tidak boleh diisi selain huruf');
-        $this->form_validation->set_message('alpha_numeric', '{field} tidak boleh diisi selain angka dan huruf');
-        $this->form_validation->set_message('is_natural', '{field} harus diisi angka');
-
-        $this->form_validation->set_error_delimiters('<span class="help-block">', '</span>');
-
+        $this->rule();
         
 		$data = array (
 			'kategori' => $this->kategori_m->get(),
@@ -46,37 +32,6 @@ class barang extends CI_Controller {
             } else {
                 $post = $this->input->post(null, TRUE);
                 $this->barang_m->add($post);
-                if($this->db->affected_rows() > 0) {
-                    echo "<script>alert('Data berhasil disimpan')</script>";
-                }
-                echo "<script>window.location='".site_url('barang')."'</script>";
-            }
-    }
-
-    public function edit2($id)
-	{
-        // tulis error handling disini
-
-        // end of set rules error
-        if ($this->form_validation->run() == FALSE) {
-                $query = $this->barang_m->get($id);
-                if ($query->num_rows() > 0) {
-                    $barang = $query->row();
-                    $data = array(
-                    'page' => 'edit',
-                    'row' => $barang,
-                    'kategori' => $this->kategori_m->get(),
-                    'satuan' => $this->satuan_m->get()
-			        );
-                    $this->template->load('template', 'produk/barang/barang_edit', $data);
-                } else {
-                    echo "<script>alert('Data tidak ditemukan');";
-                    echo "window.location='".site_url('barang')."';</script>";
-                }
-                
-            } else {
-                $post = $this->input->post(null, TRUE);
-                $this->barang_m->edit($post);
                 if($this->db->affected_rows() > 0) {
                     echo "<script>alert('Data berhasil disimpan')</script>";
                 }
@@ -114,7 +69,38 @@ class barang extends CI_Controller {
         }
         
 	}
-	
+    
+    public function edit2($id)
+	{
+        // tulis error handling disini
+
+        // end of set rules error
+        if ($this->form_validation->run() == FALSE) {
+                $query = $this->barang_m->get($id);
+                if ($query->num_rows() > 0) {
+                    $barang = $query->row();
+                    $data = array(
+                    'page' => 'edit',
+                    'row' => $barang,
+                    'kategori' => $this->kategori_m->get(),
+                    'satuan' => $this->satuan_m->get()
+			        );
+                    $this->template->load('template', 'produk/barang/barang_edit', $data);
+                } else {
+                    echo "<script>alert('Data tidak ditemukan');";
+                    echo "window.location='".site_url('barang')."';</script>";
+                }
+                
+            } else {
+                $post = $this->input->post(null, TRUE);
+                $this->barang_m->edit($post);
+                if($this->db->affected_rows() > 0) {
+                    echo "<script>alert('Data berhasil disimpan')</script>";
+                }
+                echo "<script>window.location='".site_url('barang')."'</script>";
+            }
+    }
+
 	public function process()
 	{
                
@@ -155,7 +141,7 @@ class barang extends CI_Controller {
 
         $this->form_validation->set_error_delimiters('<span class="help-block">', '</span>');
     }
-    
+
     public function rules()
     {
         $this->form_validation->set_rules('barcode', 'Barcode', 'trim|required|alpha_numeric|min_length[3]|callback_barcode_check');

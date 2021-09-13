@@ -57,7 +57,6 @@ class Kategori extends CI_Controller {
 		}
 
 		if($this->db->affected_rows() > 0) {
-			echo $this->db->affected_rows();
             echo "<script>alert('Data berhasil disimpan')</script>";
         }
         echo "<script>window.location='".site_url('kategori')."'</script>";
