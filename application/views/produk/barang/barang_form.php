@@ -31,12 +31,13 @@
                     <form action="<?=site_url('barang/process') ?>" method="post">
                         <div class="form-group <?=form_error('barcode') ? 'has-error' : null ?>">
                             <label>Barcode *</label>
-                            <input type="text" name="barcode" value="<?=set_value('barcode');?>" class="form-control">
+                            <input type="hidden" name="barang_id" value="<?=$barang->barang_id ?>">
+                            <input type="text" name="barcode" value="<?=set_value('barcode',$barang->barcode);?>" class="form-control">
                             <?=form_error('barcode'); ?>
                         </div>
                         <div class="form-group <?=form_error('nama_brg') ? 'has-error' : null ?>">
                             <label>Nama barang *</label>
-                            <input type="text" name="nama_brg" value="<?=set_value('nama_brg');?>" class="form-control">
+                            <input type="text" name="nama_brg" value="<?=set_value('nama_brg',$barang->barang_nama);?>" class="form-control">
                             <?=form_error('nama_brg'); ?>
                         </div>
                         <div class="form-group <?=form_error('kategori_id') ? 'has-error' : null ?>">
@@ -44,7 +45,7 @@
                             <select name="kategori_id" class="form-control">
                               <option value="">-Pilih-</option>
                               <?php foreach ($kategori->result() as $row): ?>
-                                <option value="<?= $row->kategori_id; ?>" <?= set_value('kategori_id') == $row->kategori_id ? 'selected' : ''; ?>><?= $row->kategori_nama; ?></option>
+                                <option value="<?=set_value('kategori_id',$row->kategori_id)  ?>" <?= $row->kategori_id == $barang->kategori_id ? 'selected' : null; ?>><?= $row->kategori_nama; ?></option>
                               <?php endforeach ?>
                             </select>
                             <?=form_error('kategori_id'); ?>
@@ -54,14 +55,14 @@
                             <select name="satuan_id" class="form-control">
                               <option value="">-Pilih-</option>
                               <?php foreach ($satuan->result() as $row): ?>
-                                <option value="<?= $row->satuan_id; ?>" <?= set_value('satuan_id') == $row->satuan_id ? 'selected' : ''; ?>><?= $row->satuan_nama; ?></option>
+                                <option value="<?= set_value('satuan_id',$row->satuan_id) ?>" <?= $row->satuan_id == $barang->satuan_id ? 'selected' : ''; ?>><?= $row->satuan_nama; ?></option>
                               <?php endforeach ?>
                             </select>
                             <?=form_error('satuan_id'); ?>
                         </div>
                         <div class="form-group <?=form_error('harga') ? 'has-error' : null ?>">
                             <label>Harga *</label>
-                            <input type="text" name="harga" value="<?=set_value('harga');?>" class="form-control">
+                            <input type="text" name="harga" value="<?=set_value('harga',$barang->harga);?>" class="form-control">
                             <?=form_error('harga'); ?>
                         </div>
                         <div class="form-group">
