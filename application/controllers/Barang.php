@@ -76,6 +76,8 @@ class barang extends CI_Controller {
 		$barang->barang_id = null;
 		$barang->barcode = null;
 		$barang->barang_nama = null; 
+		$barang->kategori_id = null;
+		$barang->satuan_id = null;
 		$barang->harga = null;
 		$data = array (
             'page' => 'tambah',
@@ -91,40 +93,31 @@ class barang extends CI_Controller {
         // tulis error handling disini
 
         // end of set rules error
-        if ($this->form_validation->run() == FALSE) {
-                $query = $this->barang_m->get($id);
-                if ($query->num_rows() > 0) {
-                    $barang = $query->row();
-                    $data = array(
-                    'page' => 'edit',
-                    'row' => $barang,
-                    'kategori' => $this->kategori_m->get(),
-                    'satuan' => $this->satuan_m->get()
-			        );
-                    $this->template->load('template', 'produk/barang/barang_form', $data);
-                } else {
-                    echo "<script>alert('Data tidak ditemukan');";
-                    echo "window.location='".site_url('barang')."';</script>";
-                }
-                
-            }
+        $query = $this->barang_m->get($id);
+        if ($query->num_rows() > 0) {
+            //$query_kat = $this->kategori_m->get();
+            $barang = $query->row();
+            $data = array(
+                'page' => 'edit',
+                'barang' => $barang,
+                'kategori' => $this->kategori_m->get(),
+                'satuan' => $this->satuan_m->get()
+            );
+            $this->template->load('template','produk/barang/barang_form',$data);
+        } else {
+            echo "<script>alert('Data tidak ditemukan');";
+            echo "window.location='".site_url('barang')."';</script>";
+        }
     }
 
-	public function process()
+	public function process($id=null)
 	{ 
-        // $post = $this->input->post(null, TRUE);
+        $post = $this->input->post(null, TRUE);
 		if(isset($_POST['tambah'])) {
-            $data = array (
-                'kategori' => $this->kategori_m->get(),
-                'satuan' => $this->satuan_m->get(),
-            );
-            $post = $this->input->post(null, TRUE);
-
             $this->rule();
             
             if ($this->form_validation->run() == FALSE) {
                     $this->add();
-                    // $this->template->load('template', 'produk/barang/barang_form',$data);
                 } else {
                     $this->barang_m->add($post);
                     if($this->db->affected_rows() > 0) {
@@ -133,7 +126,17 @@ class barang extends CI_Controller {
                     echo "<script>window.location='".site_url('barang')."'</script>";
                 }
 		} else if(isset($_POST['edit'])) {
-			$this->barang_m->edit($post);
+            $this->rules();
+            if ($this->form_validation->run() == FALSE) {
+                $this->edit($id);
+            } else {
+                $this->barang_m->edit($post);
+    
+                if($this->db->affected_rows() > 0) {
+                    echo "<script>alert('Perubahan data berhasil disimpan')</script>";
+                }
+                echo "<script>window.location='".site_url('barang')."'</script>";
+            }
 		}
 
 		// if($this->db->affected_rows() > 0) {

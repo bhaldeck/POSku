@@ -26,18 +26,6 @@ class barang_m extends CI_Model {
         $this->db->insert('barang',$data);
     }
     
-    public function edit2($post)
-    {
-        $data['barcode'] = $post['barcode'];
-        $data['barang_nama'] = $post['nama_brg'];
-        $data['kategori_id'] = $post['kategori_id'];
-        $data['satuan_id'] = $post['satuan_id'];
-        $data['harga'] = $post['harga'];
-        $data['stok'] = $post['stok'];
-        $this->db->where('barang_id', $post['barang_id']);
-        $this->db->update('barang',$data);
-    }
-
     public function edit($post)
     {
         $data = [
