@@ -13,7 +13,7 @@
 
 <!-- Main content -->
 <section class="content">
-
+    <?php $this->view('message');?>
 	<div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Data Barang</h3>
@@ -35,6 +35,7 @@
                         <th>Satuan</th>
                         <th>Harga</th>
                         <th>Stok</th>
+                        <th>Gambar</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -49,6 +50,11 @@
                         <td><?=$data->satuan_nama?></td>
                         <td><?=$data->harga?></td>
                         <td><?=$data->stok?></td>
+                        <td>
+                            <?php if($data->gambar != null) {?>
+                                <img src="<?=base_url('uploads/produk/'.$data->gambar)?>" style="width:100px" >
+                            <?php } ?>
+                        </td>
                         <td class="text-center" width="160px">
                             <a href="<?=site_url('barang/edit/'.$data->barang_id) ?>" class="btn btn-warning btn-xs">
                                 <i class="fa fa-pencil-square-o"></i>Edit

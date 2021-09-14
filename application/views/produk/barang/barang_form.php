@@ -27,8 +27,7 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-4 col-md-offset-2">
-                <?php // echo validation_errors(); ?>
-                    <form action="<?=site_url('barang/process') ?>" method="post">
+                    <?= form_open_multipart('barang/process'); ?>
                         <div class="form-group <?=form_error('barcode') ? 'has-error' : null ?>">
                             <label>Barcode *</label>
                             <input type="hidden" name="barang_id" value="<?=$barang->barang_id ?>">
@@ -65,11 +64,23 @@
                             <input type="text" name="harga" value="<?=set_value('harga',$barang->harga);?>" class="form-control">
                             <?=form_error('harga'); ?>
                         </div>
+                        <div class="form-group ">
+                            <label>Gambar</label>
+                                <?php if($page == 'edit') {?>
+                                    <?php if($barang->gambar != null) {?>
+                                        <div style="margin-bottom:5px">
+                                            <img src="<?=base_url('uploads/produk/'.$barang->gambar)?>" style="width:55%" >
+                                        </div>
+                                    <?php } ?>
+                                <?php } ?>
+                            <input type="file" name="gambar" class="form-control" >
+                            <small>(Biarkan kosong jika tidak <?=$page == 'edit' ? 'diganti' : 'ada' ?>)</small>
+                        </div>
                         <div class="form-group">
                             <button type="submit" name="<?=$page?>" class="btn btn-primary btn-flat">Simpan</button>
                             <button type="reset" class="btn btn-default btn-flat">Reset</button>
                         </div>
-                    </form>
+                    <?=form_close() ?>
                 </div>
             </div>
         </div>

@@ -23,6 +23,7 @@ class barang_m extends CI_Model {
         $data['kategori_id'] = $post['kategori_id'];
         $data['satuan_id'] = $post['satuan_id'];
         $data['harga'] = $post['harga'];
+        $data['gambar'] = $post['gambar'];
         $this->db->insert('barang',$data);
     }
     
@@ -36,6 +37,9 @@ class barang_m extends CI_Model {
             'harga' => $post['harga'],
             'updated' => date('Y-m-d H:i:s')
         ];
+        if($post['gambar'] != null){
+            $data['gambar'] = $post['gambar'];
+        }
         $this->db->where('barang_id', $post['barang_id']);
         $this->db->update('barang',$data);
     }

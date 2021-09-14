@@ -112,37 +112,79 @@ class barang extends CI_Controller {
 
 	public function process($id=null)
 	{ 
+        $config['upload_path']      = './uploads/produk';
+        $config['allowed_types']    = 'gif|jpg|png|jpeg';
+        $config['max_size']         = 2048;
+        $config['file_name']        = 'brg-'.date('ymd').'-'.substr(md5(rand()),0,10);
+        $this->load->library('upload', $config);
+
         $post = $this->input->post(null, TRUE);
 		if(isset($_POST['tambah'])) {
             $this->rule();
-            
             if ($this->form_validation->run() == FALSE) {
                     $this->add();
                 } else {
-                    $this->barang_m->add($post);
-                    if($this->db->affected_rows() > 0) {
-                        echo "<script>alert('Data berhasil disimpan')</script>";
+                    if(@$_FILES['gambar']['name'] != null){
+                        if ($this->upload->do_upload('gambar')) {
+                            $post['gambar'] = $this->upload->data('file_name');
+                            $this->barang_m->add($post);
+                            if($this->db->affected_rows() > 0) {
+                                echo "<script>alert('Data berhasil disimpan')</script>";
+                                $this->session->set_flashdata('success', 'Data berhasil disimpan');
+                            }
+                            echo "<script>window.location='".site_url('barang')."'</script>";
+                        } else {
+                            $error = $this->upload->display_errors();
+                            $this->session->set_flashdata('error', $error);
+                            redirect('barang/add');
+                        }
+                    } else {
+                        $post['gambar'] = null;
+                        $this->barang_m->add($post);
+                        if($this->db->affected_rows() > 0) {
+                            echo "<script>alert('Data berhasil disimpan')</script>";
+                        }
+                        echo "<script>window.location='".site_url('barang')."'</script>";
                     }
-                    echo "<script>window.location='".site_url('barang')."'</script>";
+                    
                 }
 		} else if(isset($_POST['edit'])) {
             $this->rules();
             if ($this->form_validation->run() == FALSE) {
                 $this->edit($id);
             } else {
-                $this->barang_m->edit($post);
-    
-                if($this->db->affected_rows() > 0) {
-                    echo "<script>alert('Perubahan data berhasil disimpan')</script>";
+                if(@$_FILES['gambar']['name'] != null){
+                    if ($this->upload->do_upload('gambar')) {
+
+                        $barang = $this->barang_m->get($post['barang_id'])->row();
+                        if($barang->gambar != null){
+                            $target_file = './uploads/produk/'.$barang->gambar;
+                            unlink($target_file);
+                        }
+
+                        $post['gambar'] = $this->upload->data('file_name');
+                        $this->barang_m->edit($post);
+                        if($this->db->affected_rows() > 0) {
+                            echo "<script>alert('Data berhasil disimpan')</script>";
+                            $this->session->set_flashdata('success', 'Data berhasil disimpan');
+                        }
+                        echo "<script>window.location='".site_url('barang')."'</script>";
+                    } else {
+                        $error = $this->upload->display_errors();
+                        $this->session->set_flashdata('error', $error);
+                        redirect('barang');
+                    }
+                } else {
+                    $post['gambar'] = null;
+                    $this->barang_m->edit($post);
+                    if($this->db->affected_rows() > 0) {
+                        echo "<script>alert('Data berhasil disimpan')</script>";
+                        $this->session->set_flashdata('success', 'Data berhasil disimpan');
+                    }
+                    echo "<script>window.location='".site_url('barang')."'</script>";
                 }
-                echo "<script>window.location='".site_url('barang')."'</script>";
             }
 		}
-
-		// if($this->db->affected_rows() > 0) {
-        //     echo "<script>alert('Data gatau berhasil disimpan')</script>";
-        // }
-        // echo "<script>window.location='".site_url('barang')."'</script>";
 	}
         
     public function del($id)
@@ -150,9 +192,9 @@ class barang extends CI_Controller {
         $this->barang_m->del($id);
         
         if($this->db->affected_rows() > 0) {
-            echo "<script>alert('Data berhasil dihapus')</script>";
+            $this->session->set_flashdata('success', 'Data Berhasil dihapus');
         }
-        echo "<script>window.location='".site_url('barang')."'</script>";
+        redirect('barang');
     }
 
     public function rule()
@@ -165,7 +207,7 @@ class barang extends CI_Controller {
 
         $this->form_validation->set_message('required', '%s harus diisi.');
         $this->form_validation->set_message('min_length', '{field} minimal harus berisi {param} karakter.');
-        $this->form_validation->set_message('is_unique', 'Kode {field} sudah ada. Silahkan ganti');
+        $this->form_validation->set_message('is_unique', '{field} sudah ada. Silahkan ganti');
         $this->form_validation->set_message('alpha_numeric_spaces', '{field} tidak boleh diisi selain huruf');
         $this->form_validation->set_message('alpha_numeric', '{field} tidak boleh diisi selain angka dan huruf');
         $this->form_validation->set_message('is_natural', '{field} harus diisi angka');
