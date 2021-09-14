@@ -18,7 +18,7 @@ class barang extends CI_Controller {
 		$this->template->load('template', 'produk/barang/barang_data', $data);
     }
     
-    public function add()
+    public function add0()
 	{
         $this->rule();
         
@@ -39,7 +39,7 @@ class barang extends CI_Controller {
             }
     }
 
-    public function edit($id)
+    public function edit0($id)
 	{
         $this->rules();
         if ($this->form_validation->run() == FALSE) {
@@ -68,9 +68,25 @@ class barang extends CI_Controller {
             echo "<script>window.location='".site_url('barang')."'</script>";
         }
         
-	}
+    }
     
-    public function edit2($id)
+    public function add()
+	{
+        $barang = new stdClass();
+		$barang->barang_id = null;
+		$barang->barcode = null;
+		$barang->barang_nama = null; 
+		$barang->harga = null;
+		$data = array (
+            'page' => 'tambah',
+            'barang' => $barang,
+			'kategori' => $this->kategori_m->get(),
+			'satuan' => $this->satuan_m->get(),
+		);
+		$this->template->load('template', 'produk/barang/barang_form',$data);
+    }
+    
+    public function edit($id)
 	{
         // tulis error handling disini
 
@@ -85,33 +101,45 @@ class barang extends CI_Controller {
                     'kategori' => $this->kategori_m->get(),
                     'satuan' => $this->satuan_m->get()
 			        );
-                    $this->template->load('template', 'produk/barang/barang_edit', $data);
+                    $this->template->load('template', 'produk/barang/barang_form', $data);
                 } else {
                     echo "<script>alert('Data tidak ditemukan');";
                     echo "window.location='".site_url('barang')."';</script>";
                 }
                 
-            } else {
-                $post = $this->input->post(null, TRUE);
-                $this->barang_m->edit($post);
-                if($this->db->affected_rows() > 0) {
-                    echo "<script>alert('Data berhasil disimpan')</script>";
-                }
-                echo "<script>window.location='".site_url('barang')."'</script>";
             }
     }
 
 	public function process()
-	{
-               
-        $post = $this->input->post(null, TRUE);
-        $this->barang_m->edit($post);
+	{ 
+        // $post = $this->input->post(null, TRUE);
+		if(isset($_POST['tambah'])) {
+            $data = array (
+                'kategori' => $this->kategori_m->get(),
+                'satuan' => $this->satuan_m->get(),
+            );
+            $post = $this->input->post(null, TRUE);
 
-		if($this->db->affected_rows() > 0) {
-			echo $this->db->affected_rows();
-            echo "<script>alert('Data berhasil disimpan')</script>";
-        }
-        echo "<script>window.location='".site_url('barang')."'</script>";
+            $this->rule();
+            
+            if ($this->form_validation->run() == FALSE) {
+                    $this->add();
+                    // $this->template->load('template', 'produk/barang/barang_form',$data);
+                } else {
+                    $this->barang_m->add($post);
+                    if($this->db->affected_rows() > 0) {
+                        echo "<script>alert('Data berhasil disimpan')</script>";
+                    }
+                    echo "<script>window.location='".site_url('barang')."'</script>";
+                }
+		} else if(isset($_POST['edit'])) {
+			$this->barang_m->edit($post);
+		}
+
+		// if($this->db->affected_rows() > 0) {
+        //     echo "<script>alert('Data gatau berhasil disimpan')</script>";
+        // }
+        // echo "<script>window.location='".site_url('barang')."'</script>";
 	}
         
     public function del($id)

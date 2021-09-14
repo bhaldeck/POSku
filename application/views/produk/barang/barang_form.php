@@ -45,7 +45,7 @@
                             <select name="kategori_id" class="form-control">
                               <option value="">-Pilih-</option>
                               <?php foreach ($kategori->result() as $row): ?>
-                                <option value="<?=set_value('kategori_id',$row->kategori_id)  ?>" <?= $row->kategori_id == $barang->kategori_id ? 'selected' : null; ?>><?= $row->kategori_nama; ?></option>
+                                <option value="<?=$row->kategori_id  ?>" <?= set_value('kategori_id') == $row->kategori_id ? 'selected' : null; ?>><?= $row->kategori_nama; ?></option>
                               <?php endforeach ?>
                             </select>
                             <?=form_error('kategori_id'); ?>
@@ -55,7 +55,7 @@
                             <select name="satuan_id" class="form-control">
                               <option value="">-Pilih-</option>
                               <?php foreach ($satuan->result() as $row): ?>
-                                <option value="<?= set_value('satuan_id',$row->satuan_id) ?>" <?= $row->satuan_id == $barang->satuan_id ? 'selected' : ''; ?>><?= $row->satuan_nama; ?></option>
+                                <option value="<?=$row->satuan_id ?>" <?= set_value('satuan_id') == $row->satuan_id ? 'selected' : ''; ?>><?= $row->satuan_nama; ?></option>
                               <?php endforeach ?>
                             </select>
                             <?=form_error('satuan_id'); ?>
