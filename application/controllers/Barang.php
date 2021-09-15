@@ -203,6 +203,12 @@ class barang extends CI_Controller {
         redirect('barang');
     }
 
+    public function barcode($id)
+    {
+        $data['row'] = $this->barang_m->get($id)->row();
+		$this->template->load('template', 'produk/barang/barcode', $data);
+    }
+
     public function rule()
     {
         $this->form_validation->set_rules('barcode', 'barcode', 'trim|required|alpha_numeric|min_length[3]|is_unique[barang.barcode]');
