@@ -189,6 +189,12 @@ class barang extends CI_Controller {
         
     public function del($id)
 	{
+        $barang = $this->barang_m->get($id)->row();
+        if($barang->gambar != null){
+            $target_file = './uploads/produk/'.$barang->gambar;
+            unlink($target_file);
+        }
+        
         $this->barang_m->del($id);
         
         if($this->db->affected_rows() > 0) {

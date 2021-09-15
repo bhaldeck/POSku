@@ -1,6 +1,6 @@
 <?php if ($this->session->has_userdata('success')) : ?>
   <div class="alert alert-success alert-dismissible" role="alert">
-    <?php echo $this->session->flashdata('success'); ?>
+  <?= strip_tags(str_replace('</p>','',$this->session->flashdata('success'))); ?>
     <button type="button" class="close" data-dismiss="alert" aria-lable="close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -9,7 +9,7 @@
 
 <?php if ($this->session->has_userdata('error')) : ?>
   <div class="alert alert-danger alert-dismissible" role="alert">
-    <?php echo $this->session->flashdata('error'); ?>
+    <?= strip_tags(str_replace('</p>','',$this->session->flashdata('error'))); ?>
     <button type="button" class="close" data-dismiss="alert" aria-lable="close">
       <span aria-hidden="true">&times;</span>
     </button>
