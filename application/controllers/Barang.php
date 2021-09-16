@@ -209,6 +209,12 @@ class barang extends CI_Controller {
 		$this->template->load('template', 'produk/barang/barcode', $data);
     }
 
+    function barcode_print($id) {
+        $data['row'] = $this->barang_m->get($id)->row();
+        $html = $this->load->view('produk/barang/barcode_print', $data, true);
+        $this->fungsi->PdfGenerator($html, 'barcode-'.$data['row']->barcode, 'A4', 'landscape');
+    }
+
     public function rule()
     {
         $this->form_validation->set_rules('barcode', 'barcode', 'trim|required|alpha_numeric|min_length[3]|is_unique[barang.barcode]');
