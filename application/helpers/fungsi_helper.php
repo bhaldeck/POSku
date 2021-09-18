@@ -25,3 +25,9 @@ function check_admin()
     }
 
 }
+
+function rupiah($nominal)
+{
+	$result = "Rp " . number_format($nominal, 2, ',', '.');
+	return $result;
+}

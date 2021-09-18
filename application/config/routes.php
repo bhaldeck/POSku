@@ -52,3 +52,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['stok/in'] = 'stok/stock_in_index';
+$route['stok/in/add'] = 'stok/stock_in_add';
