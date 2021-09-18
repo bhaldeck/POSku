@@ -49,4 +49,13 @@ class barang_m extends CI_Model {
         $this->db->where('barang_id', $id);
 		$this->db->delete('barang');
     }
+
+    function update_stok_in($data)
+    {
+        $qty = $data['qty'];
+        $id = $data['barang_id'];
+        $sql = "UPDATE barang SET stok = stok + '$qty' WHERE barang_id = '$id'";
+
+        $this->db->query($sql);
+    }
 }

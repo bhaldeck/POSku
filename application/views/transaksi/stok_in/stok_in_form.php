@@ -68,7 +68,7 @@
                         </div>
                         <div class="form-group">
                             <label for="supplier">Supplier</label>
-                            <select name="supplier_id" class="form-control">
+                            <select name="supplier_id" id="supplier" class="form-control">
                               <option value="">-Pilih-</option>
                               <?php foreach ($supplier as $row){
                                   echo '<option value="'.$row->supplier_id.'">'.$row->supplier_nama.'</option>';
@@ -76,8 +76,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Jumlah</label>
-                            <input type="number" name="qty" class="form-control"  required >
+                            <label for="qty">Jumlah</label>
+                            <input type="number" name="qty" id="qty" class="form-control"  required >
                         </div>
                         <div class="form-group">
                             <button type="submit" name="in_add" class="btn btn-primary btn-flat">Simpan</button>

@@ -8,7 +8,7 @@ class stok extends CI_Controller {
         check_not_login();
         check_admin();
         $this->load->library('form_validation');
-        $this->load->model(['barang_m', 'supplier_m']);
+        $this->load->model(['barang_m', 'supplier_m', 'stok_m']);
         date_default_timezone_set('Asia/Jakarta');
     }
 
@@ -28,7 +28,14 @@ class stok extends CI_Controller {
     public function process()
     {
         if(isset($_POST['in_add'])) {
-            echo "proses tambah stok masuk";
+            $post = $this->input->post(null, TRUE);
+            $this->stok_m->add_stok_in($post);
+            $this->barang_m->update_stok_in($post);
+
+            if($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('success', 'Data Stok-in berhasil disimpan');
+            }
+            redirect('stok/in');
         }
     }
 }

@@ -15,7 +15,7 @@
 
 <!-- Main content -->
 <section class="content">
-
+    <?php $this->view('message');?>
 	<div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Data Stok Masuk</h3>
