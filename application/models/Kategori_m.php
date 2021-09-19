@@ -13,15 +13,6 @@ class Kategori_m extends CI_Model {
         return $query;
     }
 
-    public function get_join($id = null)
-	{
-		if ($id) {
-			$this->db->where('kategori_id', $id);
-			return $this->db->get('kategori')->row_array();
-		} else {
-			return $this->db->get('kategori')->result();
-		}
-	}
 
     public function add($post)
     {

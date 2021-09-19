@@ -219,11 +219,11 @@
 								<a href="#">
 									<i class="fa fa-circle-o"></i> Sales</a>
 							</li>
-							<li <?= $this->uri->segment(2) == 'in' ? 'class="active"' : "" ?>>
+							<li <?= $this->uri->segment(1) == 'stok' && $this->uri->segment(2) == 'in' ? 'class="active"' : "" ?>>
 								<a href="<?=site_url('stok/in')?>">
 									<i class="fa fa-circle-o"></i> Stock In</a>
 							</li>
-							<li <?= $this->uri->segment(2) == 'out' ? 'class="active"' : "" ?>>
+							<li <?= $this->uri->segment(1) == 'stok' && $this->uri->segment(2) == 'out' ? 'class="active"' : "" ?>>
 								<a href="#">
 									<i class="fa fa-circle-o"></i> Stock Out</a>
 							</li>

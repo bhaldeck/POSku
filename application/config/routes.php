@@ -55,3 +55,4 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['stok/in'] = 'stok/stock_in_index';
 $route['stok/in/add'] = 'stok/stock_in_add';
+$route['stok/in/del/(:num)/(:num)'] = 'stok/stock_in_del';

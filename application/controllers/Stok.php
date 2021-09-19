@@ -14,7 +14,8 @@ class stok extends CI_Controller {
 
     public function stock_in_index()
     {
-        $this->template->load('template', 'transaksi/stok_in/stok_in_data');
+        $data['row'] = $this->stok_m->get_stok_in();
+        $this->template->load('template', 'transaksi/stok_in/stok_in_data', $data);
     }
     
     public function stock_in_add()
@@ -23,6 +24,21 @@ class stok extends CI_Controller {
         $supplier = $this->supplier_m->get()->result();
         $data = ['barang' => $barang, 'supplier' => $supplier];
         $this->template->load('template', 'transaksi/stok_in/stok_in_form', $data);
+    }
+
+    public function stock_in_del()
+    {
+        $stok_id = $this->uri->segment(4);
+        $barang_id = $this->uri->segment(5);
+        $qty = $this->stok_m->get($stok_id)->row()->qty;
+        $data = ['qty' => $qty, 'barang_id' => $barang_id];
+        $this->barang_m->update_stok_out($data);
+        $this->stok_m->del($stok_id);
+
+        if($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('success', 'Data Stok-in berhasil dihapus');
+        }
+        redirect('stok/in');
     }
 
     public function process()
