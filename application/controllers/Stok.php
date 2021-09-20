@@ -64,7 +64,7 @@ class stok extends CI_Controller {
         $this->stok_m->del($stok_id);
 
         if($this->db->affected_rows() > 0) {
-            $this->session->set_flashdata('success', 'Data Stok-in berhasil dihapus');
+            $this->session->set_flashdata('success', 'Data Stok-out berhasil dihapus');
         }
         redirect('stok/out');
     }

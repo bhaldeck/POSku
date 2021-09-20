@@ -70,7 +70,10 @@ class Supplier extends CI_Controller {
 	public function del($id)
 	{
         $this->supplier_m->del($id);
-        if($this->db->affected_rows() > 0) {
+		$error = $this->db->error();
+		if($error['code'] != 0){
+			echo "<script>alert('Data tidak bisa dihapus (sudah berelasi)')</script>";
+		} else {
             echo "<script>alert('Data berhasil dihapus')</script>";
         }
         echo "<script>window.location='".site_url('supplier')."'</script>";
