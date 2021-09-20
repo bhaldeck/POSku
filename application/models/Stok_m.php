@@ -40,16 +40,33 @@ class Stok_m extends CI_Model {
         ];
         $this->db->insert('stok',$params);
     }
-    
-    public function edit($post)
+
+    public function get_stok_out()
+    {
+        $this->db->select('stok.stok_id, barang.barcode, barang.barang_nama, qty, 
+                            tanggal, detail, barang.barang_id');
+        $this->db->from('stok');
+        $this->db->join('barang','stok.barang_id = barang.barang_id');
+        $this->db->where('tipe', 'out');
+        $this->db->order_by('stok_id', 'desc');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    public function add_stok_out($post)
     {
         $params = [
-            'stok_nama' => $post['nama_sat'],
-            'updated' => date('Y-m-d H:i:s')
+            'barang_id' => $post['barang_id'],
+            'tipe' => 'out',
+            'detail' => $post['detail'],
+            'qty' => $post['qty'],
+            'tanggal' => $post['tanggal'],
+            'user_id' => $this->session->userdata('userid')
+
         ];
-        $this->db->where('stok_id', $post['id']);
-        $this->db->update('stok',$params);
+        $this->db->insert('stok',$params);
     }
+    
 
     public function del($id)
 	{

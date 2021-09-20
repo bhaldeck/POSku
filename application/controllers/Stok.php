@@ -41,10 +41,38 @@ class stok extends CI_Controller {
         redirect('stok/in');
     }
 
+    public function stock_out_index()
+    {
+        $data['row'] = $this->stok_m->get_stok_out();
+        $this->template->load('template', 'transaksi/stok_out/stok_out_data',$data);
+    }
+    
+    public function stock_out_add()
+    {
+        $barang = $this->barang_m->get()->result();
+        $data = ['barang' => $barang];
+        $this->template->load('template', 'transaksi/stok_out/stok_out_form', $data);
+    }
+
+    public function stock_out_del()
+    {
+        $stok_id = $this->uri->segment(4);
+        $barang_id = $this->uri->segment(5);
+        $qty = $this->stok_m->get($stok_id)->row()->qty;
+        $data = ['qty' => $qty, 'barang_id' => $barang_id];
+        $this->barang_m->update_stok_in($data);
+        $this->stok_m->del($stok_id);
+
+        if($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('success', 'Data Stok-in berhasil dihapus');
+        }
+        redirect('stok/out');
+    }
+
     public function process()
     {
+        $post = $this->input->post(null, TRUE);
         if(isset($_POST['in_add'])) {
-            $post = $this->input->post(null, TRUE);
             $this->stok_m->add_stok_in($post);
             $this->barang_m->update_stok_in($post);
 
@@ -52,6 +80,21 @@ class stok extends CI_Controller {
                 $this->session->set_flashdata('success', 'Data Stok-in berhasil disimpan');
             }
             redirect('stok/in');
+        } else if(isset($_POST['out_add'])) {
+            $qty_stok = $this->barang_m->get()->row()->stok;
+            if ($post['qty'] > $qty_stok) {
+                $this->session->set_flashdata('error', 'Qty melebihi stok barang');
+                redirect('stok/out/add');
+            } else {
+                $this->stok_m->add_stok_out($post);
+                $this->barang_m->update_stok_out($post);
+    
+                if($this->db->affected_rows() > 0) {
+                    $this->session->set_flashdata('success', 'Data Stok-out berhasil disimpan');
+                }
+                redirect('stok/out');
+            }
+            
         }
     }
 }

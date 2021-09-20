@@ -14,7 +14,7 @@
 	<!-- Ionicons -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/Ionicons/css/ionicons.min.css">
 	<!-- DataTables -->
-	<link rel="stylesheet" href="<?=base_url()?>assets\bower_components\datatables.net-bs\css\dataTables.bootstrap.min.css">
+	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 	<!-- Theme style -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/AdminLTE.min.css">
 	<!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -221,11 +221,11 @@
 							</li>
 							<li <?= $this->uri->segment(1) == 'stok' && $this->uri->segment(2) == 'in' ? 'class="active"' : "" ?>>
 								<a href="<?=site_url('stok/in')?>">
-									<i class="fa fa-circle-o"></i> Stock In</a>
+									<i class="fa fa-circle-o"></i> Stok Barang Masuk</a>
 							</li>
 							<li <?= $this->uri->segment(1) == 'stok' && $this->uri->segment(2) == 'out' ? 'class="active"' : "" ?>>
-								<a href="#">
-									<i class="fa fa-circle-o"></i> Stock Out</a>
+								<a href="<?=site_url('stok/out')?>">
+									<i class="fa fa-circle-o"></i> Stok Barang Keluar</a>
 							</li>
 						</ul>
 					</li>
