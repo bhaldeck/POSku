@@ -64,6 +64,64 @@
 	document.write(thisDay + ', ' + day + ' ' + months[month] + ' ' + year);
  </script>
  <br><br>
-	dashboard page
+	<div class="row">
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="info-box">
+			<span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+
+			<div class="info-box-content">
+				<span class="info-box-text">Barang</span>
+				<span class="info-box-number"><?= $this->fungsi->count_barang() ?></span>
+			</div>
+			<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="info-box">
+			<span class="info-box-icon bg-red"><i class="fa fa-truck "></i></span>
+
+			<div class="info-box-content">
+				<span class="info-box-text">Supplier</span>
+				<span class="info-box-number"><?= $this->fungsi->count_supplier() ?></span>
+			</div>
+			<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+
+		<!-- fix for small devices only -->
+		<div class="clearfix visible-sm-block"></div>
+
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="info-box">
+			<span class="info-box-icon bg-green"><i class="fa fa-users"></i></span>
+
+			<div class="info-box-content">
+				<span class="info-box-text">User</span>
+				<span class="info-box-number"><?= $this->fungsi->count_user()?></span>
+			</div>
+			<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="info-box">
+			<span class="info-box-icon bg-yellow"><i class="ion ion-ios-people"></i></span>
+
+			<div class="info-box-content">
+				<span class="info-box-text">Pelanggan</span>
+				<span class="info-box-number"><?= $this->fungsi->count_pelanggan() ?></span>
+			</div>
+			<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
 	
 </section>
