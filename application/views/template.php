@@ -34,7 +34,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 
-<body class="hold-transition skin-yellow sidebar-mini">
+<body class="hold-transition skin-yellow sidebar-mini <?=$this->uri->segment(1) == 'penjualan' ? 'sidebar-collapse' : null ?>">
 	<!-- Site wrapper -->
 	<div class="wrapper">
 
@@ -216,8 +216,8 @@
 						</a>
 						<ul class="treeview-menu">
 							<li <?= $this->uri->segment(1) == 'penjualan' ? 'class="active"' : "" ?>>
-								<a href="#">
-									<i class="fa fa-circle-o"></i> Sales</a>
+								<a href="<?=site_url('penjualan')?>">
+									<i class="fa fa-circle-o"></i> Penjualan</a>
 							</li>
 							<li <?= $this->uri->segment(1) == 'stok' && $this->uri->segment(2) == 'in' ? 'class="active"' : "" ?>>
 								<a href="<?=site_url('stok/in')?>">
