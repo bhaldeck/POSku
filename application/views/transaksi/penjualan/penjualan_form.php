@@ -46,6 +46,9 @@
                                 <div>
                                     <select name="pelanggan" id="pelanggan" class="form-control">
                                         <option value="">Umum</option>
+                                        <?php foreach($pelanggan as $row => $value): ?>
+                                         <option value="<?=$value->pelanggan_id?>"><?=$value->pelanggan_nama?></option>
+                                        <?php endforeach?>
                                     </select>
                                 </div>
                             </td>
@@ -106,7 +109,7 @@
             <div class="box box-widget">
                 <div class="box-body">
                     <div align="right">
-                        <h4>Invoice <b><span id="invoice">MP2109250001</span></b></h4>
+                        <h4>Invoice <b><span id="invoice"><?= $invoice ?></span></b></h4>
                         <h1><b><span id="grand_total2" style="font-size:50pt">0</span></b></h1>
                     </div>
                 </div>
@@ -234,7 +237,7 @@
             <div>
                 <button id="cancel_payment" class="btn btn-flat btn-warning">
                     <i class="fa fa-refresh"></i> Batal
-                </button>
+                </button><br><br>
                 <button id="process_payment" class="btn btn-flat btn-lg btn-success">
                     <i class="fa fa-paper-plane-o"></i> Proses Pembayaran
                 </button>

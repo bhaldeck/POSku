@@ -6,14 +6,17 @@ class Penjualan extends CI_Controller {
     {
         parent::__construct();
         check_not_login();
-        check_admin();
-        $this->load->model('penjualan_m');
+        $this->load->model(['penjualan_m', 'pelanggan_m']);
         $this->load->library('form_validation');
     }
 
 	public function index()
 	{
-		check_not_login();
-		$this->template->load('template', 'transaksi/penjualan/penjualan_form');
+		$pelanggan = $this->pelanggan_m->get()->result();
+		$data = array(
+			'pelanggan' => $pelanggan,
+			'invoice' => $this->penjualan_m->invoice_no()
+		);
+		$this->template->load('template', 'transaksi/penjualan/penjualan_form', $data);
 	}
 }
