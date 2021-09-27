@@ -22,6 +22,8 @@
 	<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/skins/_all-skins.min.css">
 	<!-- jQuery 3 -->
 	<script src="<?=base_url()?>assets/bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="<?=base_url()?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

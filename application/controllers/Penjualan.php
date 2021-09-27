@@ -6,14 +6,16 @@ class Penjualan extends CI_Controller {
     {
         parent::__construct();
         check_not_login();
-        $this->load->model(['penjualan_m', 'pelanggan_m']);
+        $this->load->model(['barang_m', 'penjualan_m', 'pelanggan_m']);
         $this->load->library('form_validation');
     }
 
 	public function index()
 	{
+		$barang = $this->barang_m->get()->result();
 		$pelanggan = $this->pelanggan_m->get()->result();
 		$data = array(
+			'barang' => $barang,
 			'pelanggan' => $pelanggan,
 			'invoice' => $this->penjualan_m->invoice_no()
 		);
