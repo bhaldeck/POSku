@@ -21,4 +21,14 @@ class Penjualan extends CI_Controller {
 		);
 		$this->template->load('template', 'transaksi/penjualan/penjualan_form', $data);
 	}
+
+	public function barcode_list(){
+		// POST data
+		$postData = $this->input->post();
+	
+		// Get data
+		$data = $this->barang_m->get_barcode($postData);
+	
+		echo json_encode($data);
+	  }
 }

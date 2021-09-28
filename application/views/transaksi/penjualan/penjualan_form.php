@@ -1,3 +1,8 @@
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
+<!-- jQuery UI -->
+<script src="<?=base_url()?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
+
 <section class="content-header">
 	<h1>Penjualan
 		<small>Penjualan Barang</small>
@@ -281,6 +286,7 @@
                                     data-barcode="<?=$data->barcode?>"
                                     data-nama="<?=$data->barang_nama?>"
                                     data-satuan="<?=$data->satuan_nama?>"
+                                    data-harga="<?=$data->harga?>"
                                     data-stok="<?=$data->stok?>">
                                     <i class="fa fa-check">Pilih</i>
                                 </button>
@@ -296,6 +302,33 @@
     <!-- /.modal-dialog -->
 </div>
 
+<script type='text/javascript'>
+    $(document).ready(function(){
+        $( '#barcode' ).autocomplete({
+            source: function( request, response ) {
+              // Fetch data
+              $.ajax({
+                url: "<?=site_url()?>penjualan/barcode_list",
+                type: 'post',
+                dataType: "json",
+                data: {
+                  search: request.term
+                },
+                success: function( data ) {
+                  response( data );
+                }
+              });
+            },
+            select: function (event, ui) {
+              // Set selection
+              $('#barcode').val(ui.item.label); // display the selected text
+              $('#barang_id').val(ui.item.value); // save selected id to input
+              return false;
+            }
+        });
+
+    })
+</script>
 <script>
 $(document).ready(function(){
     $(document).on('click', '#pilih', function(){
@@ -303,13 +336,17 @@ $(document).ready(function(){
         var barcode = $(this).data('barcode');
         var barang_nama = $(this).data('nama');
         var satuan_nama = $(this).data('satuan');
+        var harga = $(this).data('harga');
         var stok = $(this).data('stok');
         $('#barang_id').val(barang_id);
         $('#barcode').val(barcode);
         $('#barang_nama').val(barang_nama);
         $('#satuan_nama').val(satuan_nama);
+        $('#harga').val(harga);
         $('#stok').val(stok);
         $('#modal-item').modal('hide');
     })
+
+    
 })
 </script>

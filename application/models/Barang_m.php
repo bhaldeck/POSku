@@ -66,4 +66,30 @@ class barang_m extends CI_Model {
 
         $this->db->query($sql);
     }
+
+    function get_barcode($postData){
+
+        $response = array();
+   
+        if(isset($postData['search']) ){
+            // Select record
+            $this->db->select('*');
+            $this->db->where("barcode like '%".$postData['search']."%' ");
+
+            $records = $this->db->get('barang')->result();
+
+            foreach($records as $row ){
+                $response[] = array(
+                    "label"=>$row->barcode,
+                    "value"=>$row->barang_id,
+                    "barang_nama"=>$row->barang_nama,
+                    "satuan_nama"=>$row->satuan_nama,
+                    "harga"=>$row->harga,
+                    "stok"=>$row->stok,
+                );
+            }
+   
+        }
+        return $response;
+    }
 }

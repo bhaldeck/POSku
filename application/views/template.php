@@ -17,13 +17,16 @@
 	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 	<!-- Theme style -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/AdminLTE.min.css">
+	<!-- jQuery UI CSS -->
+	<!-- <link rel="stylesheet" href="<?=base_url()?>assets/bower_components/jquery-ui/themes/smoothness/jquery-ui.css"> -->
 	<!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/skins/_all-skins.min.css">
+
 	<!-- jQuery 3 -->
 	<script src="<?=base_url()?>assets/bower_components/jquery/dist/jquery.min.js"></script>
 	<!-- jQuery UI -->
-	<script src="<?=base_url()?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
+	<!-- <script src="<?=base_url()?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script> -->
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
