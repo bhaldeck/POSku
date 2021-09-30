@@ -246,3 +246,70 @@
     </div>
 
 </section>
+
+<div class="modal fade in" id="modal-item" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Pilih Produk Barang</h4>
+            </div>
+            <div class="modal-body table-responsive">
+                <table id="tabel1" class="table table-bordered table-striped" >
+                    <thead>
+                        <tr>
+                            <th>Barcode</th>
+                            <th>Nama</th>
+                            <th>Satuan</th>
+                            <th>Harga</th>
+                            <th>Stok</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($barang as $row => $data) { ?>
+                        <tr>
+                            <td><?=$data->barcode?></td>
+                            <td><?=$data->barang_nama?></td>
+                            <td><?=$data->satuan_nama?></td>
+                            <td class="text-right"><?=rupiah($data->harga)?></td>
+                            <td class="text-right"><?=$data->stok?></td>
+                            <td class="text-right">
+                                <button class="btn btn-info btn-flat btn-xs" id="pilih"
+                                    data-id="<?=$data->barang_id?>"
+                                    data-barcode="<?=$data->barcode?>"
+                                    data-nama="<?=$data->barang_nama?>"
+                                    data-satuan="<?=$data->satuan_nama?>"
+                                    data-stok="<?=$data->stok?>">
+                                    <i class="fa fa-check">Pilih</i>
+                                </button>
+                            </td>
+                        </tr>
+                        <?php } ?>    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+$(document).ready(function(){
+    $(document).on('click', '#pilih', function(){
+        var barang_id = $(this).data('id');
+        var barcode = $(this).data('barcode');
+        var barang_nama = $(this).data('nama');
+        var satuan_nama = $(this).data('satuan');
+        var stok = $(this).data('stok');
+        $('#barang_id').val(barang_id);
+        $('#barcode').val(barcode);
+        $('#barang_nama').val(barang_nama);
+        $('#satuan_nama').val(satuan_nama);
+        $('#stok').val(stok);
+        $('#modal-item').modal('hide');
+    })
+})
+</script>
