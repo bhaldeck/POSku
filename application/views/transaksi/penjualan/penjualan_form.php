@@ -61,6 +61,7 @@
         <div class="col-lg-4">
             <div class="box box-widget">
                 <div class="box-body">
+                    <form action="<?=site_url('penjualan/add_to_cart') ?>" method="post">
                     <table width="100%">
                         <tr>
                             <td style="vertical-align:top; width:30%">
@@ -68,9 +69,11 @@
                             </td>
                             <td>
                                 <div class="form-group input-group">
-                                    <input type="hidden" id="barang_id">
-                                    <input type="hidden" id="harga">
+                                    <input type="hidden" id="barang_id" name="barang_id">
+                                    <input type="hidden" id="barang_nama">
+                                    <input type="hidden" id="harga" name="harga">
                                     <input type="hidden" id="stok">
+                                    <input type="hidden" id="diskon" value="0" min="0">
                                     <input type="text" id="barcode" class="form-control" autofocus>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-item">
@@ -86,7 +89,7 @@
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <input type="number" id="qty" value="1" min="1" class="form-control">
+                                    <input type="number" id="qty" name="qty" value="1" min="1" class="form-control">
                                 </div>
                             </td>
                         </tr>
@@ -94,13 +97,14 @@
                             <td></td>
                             <td>
                                 <div>
-                                    <button type="button" id="add_cart" class="btn btn-primary">
+                                    <button type="submit" name="add_cart" class="btn btn-primary">
                                         <i class="fa fa-cart-plus"></i> Tambah
                                     </button>
                                 </div>
                             </td>
                         </tr>
                     </table>
+                    </form>
                 </div>
             </div>
         </div>
@@ -110,7 +114,7 @@
                 <div class="box-body">
                     <div align="right">
                         <h4>Invoice <b><span id="invoice"><?= $invoice ?></span></b></h4>
-                        <h1><b><span id="grand_total2" style="font-size:50pt">0</span></b></h1>
+                        <h1><b><span id="grand_total2" style="font-size:50pt"><?=str_replace(".00", "", $this->cart->format_number($this->cart->total()));?></span></b></h1>
                     </div>
                 </div>
             </div>
@@ -135,9 +139,31 @@
                             </tr>
                         </thead>
                         <tbody id="cart_table">
-                            <tr>
-                                <td colspan="9" class="text-center">Tidak Ada Item</td>
-                            </tr>
+                        <?php $i = 1; ?>
+                        <?php foreach ($this->cart->contents() as $items): ?>
+                        <?php echo form_hidden([
+                            $i.'[rowid]' => $items['rowid'],
+                            'barang_id' => $items['id']
+                            ]); ?>
+                        <tr>
+                            <td><?=$i?></td>
+                            <td><?=$items['barcode'];?></td>
+                            <td><?=$items['name'];?></td>
+                            <td style="text-align:right;"><?php echo $items['price'];?></td>
+                            <td style="text-align:center;"><?php echo $items['qty'];?></td>
+                            <td style="text-align:right;"><?php echo $items['disc'];?></td>
+                            <td style="text-align:right;"><?php echo $items['subtotal'];?></td>
+                            
+                            <td style="text-align:center;">
+                                <div class="form-group">
+                                    <a href="" class="btn btn-default btn-xs"><span class="fa fa-pencil"></span> Update</a>
+                                    <a href="<?php echo base_url().'penjualan/remove/'.$items['rowid'];?>" class="btn btn-warning btn-xs"><span class="fa fa-close"></span> Batal</a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <?php $i++; ?>
+                        <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -176,7 +202,7 @@
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <input type="number" id="grandtotal" value="" class="form-control" readonly>
+                                    <input type="number" id="grandtotal" value="<?=rupiah($this->cart->total())?>" class="form-control" readonly>
                                 </div>
                             </td>
                         </tr>
@@ -273,14 +299,14 @@
                             <td><?=$data->barcode?></td>
                             <td><?=$data->barang_nama?></td>
                             <td><?=$data->satuan_nama?></td>
-                            <td class="text-right"><?=rupiah($data->harga)?></td>
+                            <td class="text-right"><?=$data->harga?></td>
                             <td class="text-right"><?=$data->stok?></td>
                             <td class="text-right">
                                 <button class="btn btn-info btn-flat btn-xs" id="pilih"
                                     data-id="<?=$data->barang_id?>"
                                     data-barcode="<?=$data->barcode?>"
                                     data-nama="<?=$data->barang_nama?>"
-                                    data-satuan="<?=$data->satuan_nama?>"
+                                    data-harga="<?=$data->harga?>"
                                     data-stok="<?=$data->stok?>">
                                     <i class="fa fa-check">Pilih</i>
                                 </button>
@@ -302,12 +328,12 @@ $(document).ready(function(){
         var barang_id = $(this).data('id');
         var barcode = $(this).data('barcode');
         var barang_nama = $(this).data('nama');
-        var satuan_nama = $(this).data('satuan');
+        var harga = $(this).data('harga');
         var stok = $(this).data('stok');
         $('#barang_id').val(barang_id);
         $('#barcode').val(barcode);
         $('#barang_nama').val(barang_nama);
-        $('#satuan_nama').val(satuan_nama);
+        $('#harga').val(harga);
         $('#stok').val(stok);
         $('#modal-item').modal('hide');
     })
