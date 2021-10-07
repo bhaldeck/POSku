@@ -72,16 +72,8 @@
                                 <label for="barcode">Barcode</label>
                             </td>
                             <td>
-                                <div class="form-group input-group">
-                                    <input type="hidden" id="barang_id">
-                                    <input type="hidden" id="harga">
-                                    <input type="hidden" id="stok">
+                                <div class="form-group">
                                     <input type="text" id="barcode" class="form-control" autofocus>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-item">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
                                 </div>
                             </td>
                         </tr>
@@ -303,32 +295,31 @@
 </div>
 
 <script type='text/javascript'>
-    $(document).ready(function(){
-        $( '#barcode' ).autocomplete({
-            source: function( request, response ) {
-              // Fetch data
-              $.ajax({
-                url: "<?=site_url()?>penjualan/barcode_list",
-                type: 'post',
-                dataType: "json",
-                data: {
-                  search: request.term
-                },
-                success: function( data ) {
-                  response( data );
-                }
-              });
-            },
-            select: function (event, ui) {
-              // Set selection
-              $('#barcode').val(ui.item.label); // display the selected text
-              $('#barang_id').val(ui.item.value); // save selected id to input
-              return false;
-            }
-        });
+		$(document).ready(function(){
+			$( '#barcode' ).autocomplete({
+				source: function( request, response ) {
+				// Fetch data
+				$.ajax({
+					url: "<?=site_url()?>penjualan/barcode_list",
+					type: 'post',
+					dataType: "json",
+					data: {
+					search: request.term
+					},
+					success: function( data ) {
+					response( data );
+					}
+				});
+				},
+				select: function (event, ui) {
+				// Set selection
+				$('#barcode').val(ui.item.label); // display the selected text
+				return false;
+				}
+			});
 
-    })
-</script>
+		})
+	</script>
 <script>
 $(document).ready(function(){
     $(document).on('click', '#pilih', function(){
