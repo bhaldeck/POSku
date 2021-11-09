@@ -244,5 +244,92 @@
             </div>
         </div>
     </div>
-
 </section>
+
+<div class="modal fade in" id="modal-item" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Pilih Produk Barang</h4>
+            </div>
+            <div class="modal-body table-responsive">
+                <table id="tabel1" class="table table-bordered table-striped" >
+                    <thead>
+                        <tr>
+                            <th>Barcode</th>
+                            <th>Nama</th>
+                            <th>Satuan</th>
+                            <th>Harga</th>
+                            <th>Stok</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($barang as $row => $data) { ?>
+                        <tr>
+                            <td><?=$data->barcode?></td>
+                            <td><?=$data->barang_nama?></td>
+                            <td><?=$data->satuan_nama?></td>
+                            <td class="text-right"><?=$data->harga?></td>
+                            <td class="text-right"><?=$data->stok?></td>
+                            <td class="text-right">
+                                <button class="btn btn-info btn-flat btn-xs" id="pilih"
+                                    data-id="<?=$data->barang_id?>"
+                                    data-barcode="<?=$data->barcode?>"
+                                    data-harga="<?=$data->harga?>"
+                                    data-stok="<?=$data->stok?>">
+                                    <i class="fa fa-check">Pilih</i>
+                                </button>
+                            </td>
+                        </tr>
+                        <?php } ?>    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+$(document).on('click', '#pilih', function(){
+    $('#barang_id').val($(this).data('id'));
+    $('#barcode').val($(this).data('barcode'));
+    $('#harga').val($(this).data('harga'));
+    $('#stok').val($(this).data('stok'));
+    $('#modal-item').modal('hide');
+})
+
+$(document).on('click', '#add_cart', function(){
+    var barang_id = $('#barang_id').val()
+    var harga = $('#harga').val()
+    var stok = $('#stok').val()
+    var qty = $('#qty').val()
+    if (barang_id=='') {
+        alert('Produk belum dipilih')
+        $('#barcode').focus()
+    } else if(stok < 1){
+        alert('Stok tidak mencukupi')
+        $('#barang_id').val('')
+        $('#barcode').val('')
+        $('#barcode').focus()
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: '<?=site_url('penjualan/process')?>',
+            data: {'add_cart' : true, 'barang_id' : barang_id, 'harga' : harga, 'qty' : qty},
+            dataType: 'json',
+            success: function(result){
+                if(result.success == true){
+                    alert('Tambah cart ke db')
+                } else {
+                    alert('Gagal tambah ke keranjang')
+                }
+            }
+        })
+    }
+})
+</script>

@@ -18,5 +18,8 @@ class Penjualan_m extends CI_Model {
         $invoice = "PTU".date('ymd').$no;
         return $invoice;
     }
-
+    public function add_cart($data)
+    {
+        
+    }
 }
