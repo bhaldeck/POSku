@@ -20,6 +20,22 @@ class Penjualan_m extends CI_Model {
     }
     public function add_cart($data)
     {
-        
+        $query = $this->db->query("SELECT MAX(cart_id) AS cart_no FROM cart");
+        if($query->num_rows() > 0){
+            $row = $query->row();
+            $car_no = ((int)$row->cart_no) + 1;
+        } else {
+            $car_no = "1";
+        }
+
+        $params = array(
+            'cart_id' => $car_no,
+            'barang_id' => $data['barang_id'],
+            'harga' => $data['harga'],
+            'qty' => $data['qty'],
+            'total' => ($data['harga'] * $data['qty']),
+            'user_id' => $this->session->userdata('userid')
+        );
+        $this->db->insert('cart', $params);
     }
 }
