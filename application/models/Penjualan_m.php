@@ -18,6 +18,20 @@ class Penjualan_m extends CI_Model {
         $invoice = "PTU".date('ymd').$no;
         return $invoice;
     }
+
+    public function get_cart($params = null)
+    {
+        $this->db->select('*, cart.harga as cart_harga');
+        $this->db->from('cart');
+        $this->db->join('barang', 'cart.barang_id = barang.barang_id');
+        if ($params != null) {
+            $this->db->where($params);
+        }
+        $this->db->where('user_id', $this->session->userdata('userid'));
+        $query = $this->db->get();
+        return $query;
+    }
+
     public function add_cart($data)
     {
         $query = $this->db->query("SELECT MAX(cart_id) AS cart_no FROM cart");
@@ -37,5 +51,21 @@ class Penjualan_m extends CI_Model {
             'user_id' => $this->session->userdata('userid')
         );
         $this->db->insert('cart', $params);
+    }
+
+    function update_cart_qty($post) {
+        $sql = "UPDATE cart SET harga = '$post[harga]',
+                qty = qty + '$post[qty]',
+                total = '$post[harga]' * qty
+                WHERE barang_id = '$post[barang_id]'";
+        $this->db->query($sql);
+    }
+
+    public function del_cart($params = null)
+    {
+        if ($params != null) {
+            $this->db->where($params);
+        }
+        $this->db->delete('cart');
     }
 }

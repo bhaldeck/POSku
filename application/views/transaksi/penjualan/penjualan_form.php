@@ -135,9 +135,9 @@
                             </tr>
                         </thead>
                         <tbody id="cart_table">
-                            <tr>
-                                <td colspan="9" class="text-center">Tidak Ada Item</td>
-                            </tr>
+
+                            <?php $this->view('transaksi/penjualan/data_keranjang');?>
+
                         </tbody>
                     </table>
                 </div>
@@ -324,9 +324,36 @@ $(document).on('click', '#add_cart', function(){
             dataType: 'json',
             success: function(result){
                 if(result.success == true){
-                    alert('Tambah cart ke db')
+                    $('#cart_table').load('<?=site_url('penjualan/cart_data')?>', function(){
+
+                    })
+                    $('#barang_id').val('')
+                    $('#barcode').val('')
+                    $('#qty').val(1)
+                    $('#barcode').focus()
                 } else {
                     alert('Gagal tambah ke keranjang')
+                }
+            }
+        })
+    }
+})
+
+$(document).on('click', '#del_cart', function() {
+    if(confirm('Apakah Anda yakin?')) {
+        var cart_id = $(this).data('cartid')
+        $.ajax({
+            type : 'POST',
+            url: '<?=site_url('penjualan/cart_del')?>',
+            dataType: 'json',
+            data: {'cart_id' : cart_id},
+            success: function(result){
+                if(result.success == true) {
+                    $('#cart_table').load('<?=site_url('penjualan/cart_data')?>', function() {
+
+                    })
+                } else {
+                    alert('Gagal hapus item keranjang')
                 }
             }
         })
