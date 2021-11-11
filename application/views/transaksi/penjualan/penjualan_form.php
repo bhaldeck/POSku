@@ -246,6 +246,7 @@
     </div>
 </section>
 
+<!-- modal add item -->
 <div class="modal fade in" id="modal-item" >
     <div class="modal-dialog">
         <div class="modal-content">
@@ -293,6 +294,65 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+<!-- end of add_modal_item -->
+
+<!-- modal edit cart item -->
+<div class="modal fade in" id="modal-item-edit" >
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Update Produk Barang</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="cartid_barang">
+                <div class="form-group">
+                    <label for="produk_barang">Produk Barang</label>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input type="text" id="barcode_barang" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="text" id="produk_barang" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="harga_barang">Harga</label>
+                    <input type="number" id="harga_barang" min="0" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="qty_barang">Qty</label>
+                    <input type="number" id="qty_barang" min="1" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="total_sebelum">Total sebelum diskon</label>
+                    <input type="number" id="total_sebelum" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="diskon_barang">Diskon per barang</label>
+                    <input type="number" id="diskon_barang" min="0" class="form-control" >
+                </div>
+                <div class="form-group">
+                    <label for="total_setelah">Total setelah diskon</label>
+                    <input type="number" id="total_barang" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" id="edit_cart" class="btn btn-flat btn-success">
+                        <i class="fa fa-paper-plane"></i> Simpan</button>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- end off modal edit cart item -->
+
 
 <script>
 $(document).on('click', '#pilih', function(){
@@ -358,5 +418,31 @@ $(document).on('click', '#del_cart', function() {
             }
         })
     }
+})
+
+$(document).on('click', '#update_cart', function(){
+    $('#cartid_barang').val($(this).data('cartid'));
+    $('#barcode_barang').val($(this).data('barcode'));
+    $('#produk_barang').val($(this).data('produk'));
+    $('#harga_barang').val($(this).data('harga'));
+    $('#qty_barang').val($(this).data('qty'));
+    $('#total_sebelum').val($(this).data('harga') * $(this).data('qty'));
+    $('#diskon_barang').val($(this).data('diskon'));
+    $('#total_barang').val($(this).data('total'));
+    $('#modal-item-edit').modal('hide');
+})
+function count_edit_modal() {
+    var harga = $('#harga_barang').val()
+    var qty = $('#qty_barang').val()
+    var diskon = $('#diskon_barang').val()
+
+    total_sebelum = harga * qty
+    $('#total_sebelum').val(total_sebelum)
+
+    total = (harga - diskon) * qty
+    $('#total_barang').val(total)
+}
+$(document).on('keyup mouseup', '#harga_barang, #qty_barang, #diskon_barang', function() {
+    count_edit_modal()
 })
 </script>

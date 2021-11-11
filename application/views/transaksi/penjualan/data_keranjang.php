@@ -16,9 +16,9 @@ if ($cart->num_rows()>0) {
                 data-produk="<?=$data->barang_nama?>"
                 data-harga="<?=$data->cart_harga?>"
                 data-qty="<?=$data->qty?>"
-                data-diskkon="<?=$data->barang_disc?>"
+                data-diskon="<?=$data->barang_disc?>"
                 data-total="<?=$data->total?>"
-                class="btn btn-xs btn-warning">
+                class="btn btn-xs btn-primary">
                     <i class="fa fa-pencil"></i> Update
                 </button>
                 <button id="del_cart" data-cartid="<?=$data->cart_id?>" class="btn btn-xs btn-danger">
