@@ -71,7 +71,7 @@
                                     <input type="hidden" id="barang_id">
                                     <input type="hidden" id="harga">
                                     <input type="hidden" id="stok">
-                                    <input type="text" id="barcode" class="form-control" autofocus>
+                                    <input type="text" id="barcode" class="form-control" placeholder="Pilih-->" autofocus>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-item">
                                             <i class="fa fa-search"></i>
@@ -235,10 +235,10 @@
 
         <div class="col-lg-3">
             <div>
-                <button id="cancel_payment" class="btn btn-flat btn-warning">
+                <button id="batal_bayar" class="btn btn-flat btn-warning">
                     <i class="fa fa-refresh"></i> Batal
                 </button><br><br>
-                <button id="process_payment" class="btn btn-flat btn-lg btn-success">
+                <button id="proses_bayar" class="btn btn-flat btn-lg btn-success">
                     <i class="fa fa-paper-plane-o"></i> Proses Pembayaran
                 </button>
             </div>
@@ -445,6 +445,10 @@ function count_edit_modal() {
 
     total = (harga - diskon) * qty
     $('#total_barang').val(total)
+
+    if(diskon == ''){
+        $('#diskon_barang').val(0)
+    }
 }
 
 $(document).on('keyup mouseup', '#harga_barang, #qty_barang, #diskon_barang', function() {
@@ -455,7 +459,7 @@ $(document).on('click', '#edit_cart', function(){
     var cart_id = $('#cartid_barang').val()
     var harga = $('#harga_barang').val()
     var qty = $('#qty_barang').val()
-    var diskon = $('#diskon_barang').val()
+    var diskon_b = $('#diskon_barang').val()
     var total = $('#total_barang').val()
     if (harga=='' || harga < 1) {
         alert('Harga tidak boleh kosong')
@@ -463,13 +467,11 @@ $(document).on('click', '#edit_cart', function(){
     } else if(qty == '' || qty < 1){
         alert('Qty tidak boleh kosong')
         $('#qty_barang').focus()
-    } else if(diskon == ''){
-        $('#diskon_barang').val(0)
     } else {
         $.ajax({
             type: 'POST',
             url: '<?=site_url('penjualan/process')?>',
-            data: {'edit_cart' : true, 'cart_id' : cart_id, 'harga' : harga, 'qty' : qty, 'diskon' : diskon,'total' : total },
+            data: {'edit_cart' : true, 'cart_id' : cart_id, 'harga' : harga, 'qty' : qty, 'diskon_b' : diskon_b, 'total' : total },
             dataType: 'json',
             success: function(result){
                 if(result.success == true){
@@ -504,6 +506,10 @@ function calculate() {
 
     var tunai = $('#cash').val()
     tunai != 0 ? $('#change').val(tunai - grandtotal) : $('#change').val(0)
+
+    if(diskon == ''){
+        $('#diskon').val(0)
+    }
 }
 
 $(document).on('keyup mouseup', '#diskon, #cash', function() {
@@ -512,6 +518,45 @@ $(document).on('keyup mouseup', '#diskon, #cash', function() {
 
 $(document).ready(function() {
     calculate()
+})
+
+$(document).on('click', '#proses_bayar', function () {
+    var pelanggan_id = $('#pelanggan').val()
+    var subtotal = $('#subtotal').val()
+    var diskon = $('#diskon').val()
+    var grandtotal = $('#grandtotal').val()
+    var tunai = $('#cash').val()
+    var kembali = $('#change').val()
+    var note = $('#note').val()
+    var tanggal = $('#tanggal').val()
+    if (subtotal < 1) {
+        alert('Belum ada barang yang dipilih')
+        $('#barcode').focus()
+    } else if(tunai < 1) {
+        alert('Jumlah uang tunai belum diinput')
+        $('#cash').focus()
+    } else {
+        if (confirm('Proses transaksi?')) {
+            $.ajax({
+                type: 'POST',
+                url: '<?=site_url('penjualan/process')?>',
+                data: {'proses_bayar' : true, 'pelanggan_id' : pelanggan_id, 'subtotal' : subtotal,
+                        'diskon' : diskon,'grandtotal' : grandtotal, 'tunai' : tunai, 'kembali' : kembali,
+                        'note' : note, 'tanggal' : tanggal },
+                dataType: 'json',
+                success: function(result){
+                    if(result.success == true){
+                        alert('Transaksi berhasi')
+                    } else {
+                        alert('Transaksi gagal ke db')
+                    }
+                    location.href = '<?=site_url('penjualan')?>'
+                }
+            })
+        } else {
+            
+        }
+    }
 })
 
 </script>

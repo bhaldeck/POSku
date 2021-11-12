@@ -74,10 +74,34 @@ class Penjualan_m extends CI_Model {
         $params = array(
             'harga' => $post['harga'],
             'qty' => $post['qty'],
-            'barang_disc' => $post['diskon'],
+            'barang_disc' => $post['diskon_b'],
             'total' => $post['total']
         );
         $this->db->where('cart_id', $post['cart_id']);
         $this->db->update('cart', $params);
+    }
+
+    public function add_sale($post)
+    {
+        $params = array(
+            'invoice' => $this->invoice_no(),
+            'pelanggan_id' => $post['pelanggan_id'] == "" ? null : $post['pelanggan_id'],
+            'total_harga' => $post['subtotal'],
+            'diskon' => $post['diskon'],
+            'harga_final' => $post['grandtotal'],
+            'tunai' => $post['tunai'],
+            'kembali' => $post['kembali'],
+            'keterangan' => $post['note'],
+            'tanggal' => $post['tanggal'],
+            'user_id' => $this->session->userdata('userid')
+        );
+        $this->db->insert('penjualan', $params);
+        // insert_id = autoincrement yg ditampung ke field penjualan_id
+        return $this->db->insert_id();
+    }
+
+    public function add_sale_detail($params)
+    {
+        $this->db->insert_batch('penjualan_detail', $params);
     }
 }
