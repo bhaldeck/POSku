@@ -68,4 +68,16 @@ class Penjualan_m extends CI_Model {
         }
         $this->db->delete('cart');
     }
+
+    public function edit_cart($post)
+    {
+        $params = array(
+            'harga' => $post['harga'],
+            'qty' => $post['qty'],
+            'barang_disc' => $post['diskon'],
+            'total' => $post['total']
+        );
+        $this->db->where('cart_id', $post['cart_id']);
+        $this->db->update('cart', $params);
+    }
 }
