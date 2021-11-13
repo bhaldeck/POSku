@@ -28,7 +28,7 @@ function check_admin()
 
 function rupiah($nominal)
 {
-	$result = "Rp " . number_format($nominal, 2, ',', '.');
+	$result = "Rp " . number_format($nominal, 0, ',', '.');
 	return $result;
 }
 

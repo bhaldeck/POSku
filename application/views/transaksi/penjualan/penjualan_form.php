@@ -44,7 +44,7 @@
                             </td>
                             <td>
                                 <div>
-                                    <select name="pelanggan" id="pelanggan" class="form-control">
+                                    <select name="pelanggan" id="pelanggan" class="form-control" required>
                                         <option value="">Umum</option>
                                         <?php foreach($pelanggan as $row => $value): ?>
                                          <option value="<?=$value->pelanggan_id?>"><?=$value->pelanggan_nama?></option>
@@ -547,6 +547,7 @@ $(document).on('click', '#proses_bayar', function () {
                 success: function(result){
                     if(result.success == true){
                         alert('Transaksi berhasi')
+                        window.open('<?=site_url('penjualan/cetak/')?>' + result.penjualan_id, '_blank')
                     } else {
                         alert('Transaksi gagal ke db')
                     }
@@ -556,6 +557,29 @@ $(document).on('click', '#proses_bayar', function () {
         } else {
             
         }
+    }
+})
+
+$(document).on('click', '#batal_bayar', function() {
+    if(confirm('Apakah ingin membatalkan transaksi?')) {
+        $.ajax({
+            type : 'POST',
+            url: '<?=site_url('penjualan/cart_del')?>',
+            dataType: 'json',
+            data: {'batal_bayar' : true},
+            success: function(result){
+                if(result.success == true) {
+                    $('#cart_table').load('<?=site_url('penjualan/cart_data')?>', function() {
+                        calculate()
+                    })
+                }
+            }
+        })
+        $('#diskon').val(0)
+        $('#cash').val(0)
+        $('#pelanggan').val(0).change()
+        $('#barcode').val('')
+        $('#pelanggan').focus()
     }
 })
 

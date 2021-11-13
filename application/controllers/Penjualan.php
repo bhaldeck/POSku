@@ -74,7 +74,7 @@ class Penjualan extends CI_Controller {
 			$this->penjualan_m->del_cart(['user_id' => $this->session->userdata('userid')]);
 
 			if($this->db->affected_rows() > 0) {
-				$params = array("success" => true);
+				$params = array("success" => true, "penjualan_id" => $penjualan_id);
 			} else {
 				$params = array("success" => false);
 			}
@@ -90,8 +90,12 @@ class Penjualan extends CI_Controller {
 
 	public function cart_del()
 	{
-		$cart_id = $this->input->post('cart_id');
-		$this->penjualan_m->del_cart(['cart_id' => $cart_id]);
+		if(isset($_POST['batal_bayar'])) {
+			$this->penjualan_m->del_cart(['user_id' => $this->session->userdata('userid')]);
+		} else {
+			$cart_id = $this->input->post('cart_id');
+			$this->penjualan_m->del_cart(['cart_id' => $cart_id]);
+		}
 
 		if($this->db->affected_rows() > 0) {
 			$params = array("success" => true);
@@ -99,5 +103,14 @@ class Penjualan extends CI_Controller {
 			$params = array("success" => false);
 		}
 		echo json_encode($params);
+	}
+
+	public function cetak($id)
+	{
+		$data = array(
+			'sale' => $this->penjualan_m->get_sale($id)->row(),
+			'sale_detail' => $this->penjualan_m->get_sale_detail($id)->result()
+		);
+		$this->load->view('transaksi/penjualan/nota_print', $data);
 	}
 }

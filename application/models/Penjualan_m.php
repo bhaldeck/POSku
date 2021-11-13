@@ -104,4 +104,27 @@ class Penjualan_m extends CI_Model {
     {
         $this->db->insert_batch('penjualan_detail', $params);
     }
+
+    public function get_sale($id = null)
+    {
+        $this->db->select('*, user.username as user_name, penjualan.created as penjualan_created');
+        $this->db->from('penjualan');
+        $this->db->join('pelanggan', 'penjualan.pelanggan_id = pelanggan.pelanggan_id', 'left');
+        $this->db->join('user', 'penjualan.user_id = user.user_id');
+        if ($id != null) {
+            $this->db->where('penjualan_id', $id);
+        }
+        $query = $this->db->get();
+        return $query;
+    }
+    public function get_sale_detail($sale_id = null)
+    {
+        $this->db->from('penjualan_detail');
+        $this->db->join('barang', 'penjualan_detail.barang_id = barang.barang_id');
+        if ($sale_id != null) {
+            $this->db->where('penjualan_detail.penjualan_id', $sale_id);
+        }
+        $query = $this->db->get();
+        return $query;
+    }
 }
