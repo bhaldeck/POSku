@@ -88,7 +88,7 @@
                             <td><?=$value->qty?></td>
                             <td style="text-align:right; width: 60px;"><?=rupiah($value->harga)?></td>
                             <td style="text-align:right; width: 60px;">
-                            <?=rupiah($value->harga * $value->qty)?>
+                            <?=rupiah(($value->harga - $value->barang_disc) * $value->qty)?>
                         </td>
                         </tr>
 
@@ -101,8 +101,8 @@
                     foreach ($arr_discount as $key => $value) { ?>
                         <tr>
                             <td></td>
-                            <td colspan="2" style="text-align:right">Disc. @#<?=($key+1)?></td>
-                            <td style="text-align:right"><?=rupiah($value)?></td>
+                            <td colspan="2" style="text-align:left">Disc. @#<?=($key+1)?></td>
+                            <td style="text-align:left"><?=rupiah($value)?></td>
                         </tr>
                     <?php
                     } ?>
