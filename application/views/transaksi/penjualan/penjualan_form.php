@@ -44,7 +44,7 @@
                             </td>
                             <td>
                                 <div>
-                                    <select name="pelanggan" id="pelanggan" class="form-control" required>
+                                    <select name="pelanggan" id="pelanggan" class="form-control">
                                         <option value="">Umum</option>
                                         <?php foreach($pelanggan as $row => $value): ?>
                                          <option value="<?=$value->pelanggan_id?>"><?=$value->pelanggan_nama?></option>
@@ -71,6 +71,7 @@
                                     <input type="hidden" id="barang_id">
                                     <input type="hidden" id="harga">
                                     <input type="hidden" id="stok">
+                                    <input type="hidden" id="qty_cart">
                                     <input type="text" id="barcode" class="form-control" placeholder="Pilih-->" autofocus>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-item">
@@ -109,7 +110,7 @@
             <div class="box box-widget">
                 <div class="box-body">
                     <div align="right">
-                        <h4>Invoice <b><span id="invoice"><?= $invoice ?></span></b></h4>
+                        <h4>Nota <b><span id="invoice"><?= $invoice ?></span></b></h4>
                         <h1><b><span id="grandtotal2" style="font-size:50pt"></span></b></h1>
                     </div>
                 </div>
@@ -324,8 +325,16 @@
                     <input type="number" id="harga_barang" min="0" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="qty_barang">Qty</label>
-                    <input type="number" id="qty_barang" min="1" class="form-control">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <label for="qty_barang">Qty</label>
+                            <input type="number" id="qty_barang" min="1" class="form-control">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="stok_barang">Stok</label>
+                            <input type="number" id="stok_barang" class="form-control" readonly>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="total_sebelum">Total sebelum diskon</label>
@@ -356,26 +365,41 @@
 
 <script>
 $(document).on('click', '#pilih', function(){
+    var barcode = $(this).data('barcode')
+
     $('#barang_id').val($(this).data('id'));
-    $('#barcode').val($(this).data('barcode'));
+    $('#barcode').val(barcode);
     $('#harga').val($(this).data('harga'));
     $('#stok').val($(this).data('stok'));
     $('#modal-item').modal('hide');
+
+    get_cart_qty(barcode)
 })
+
+function get_cart_qty(barcode) {
+    $('#cart_table tr').each(function() {
+        // var qty_cart = $(this).find("td").eq(4).html()
+        var qty_cart = $("#cart_table td.barcode:contains('"+barcode+"')").parent().find("td").eq(4).html()
+        if (qty_cart != null) {
+            $('#qty_cart').val(qty_cart)
+        } else {
+            $('#qty_cart').val(0)
+        }
+    });
+}
 
 $(document).on('click', '#add_cart', function(){
     var barang_id = $('#barang_id').val()
     var harga = $('#harga').val()
     var stok = $('#stok').val()
     var qty = $('#qty').val()
+    var qty_cart = $('#qty_cart').val()
     if (barang_id=='') {
         alert('Produk belum dipilih')
         $('#barcode').focus()
-    } else if(stok < 1){
+    } else if(stok < 1 || parseInt(stok) < (parseInt(qty) + parseInt(qty_cart))){
         alert('Stok tidak mencukupi')
-        $('#barang_id').val('')
-        $('#barcode').val('')
-        $('#barcode').focus()
+        $('#qty').focus()
     } else if(qty < 1){
         alert('Qty tidak boleh kosong')
         $('#qty').val('')
@@ -428,6 +452,7 @@ $(document).on('click', '#update_cart', function(){
     $('#cartid_barang').val($(this).data('cartid'));
     $('#barcode_barang').val($(this).data('barcode'));
     $('#produk_barang').val($(this).data('produk'));
+    $('#stok_barang').val($(this).data('stok'));
     $('#harga_barang').val($(this).data('harga'));
     $('#qty_barang').val($(this).data('qty'));
     $('#total_sebelum').val($(this).data('harga') * $(this).data('qty'));
@@ -459,6 +484,7 @@ $(document).on('click', '#edit_cart', function(){
     var cart_id = $('#cartid_barang').val()
     var harga = $('#harga_barang').val()
     var qty = $('#qty_barang').val()
+    var stok_b = $('#stok_barang').val()
     var diskon_b = $('#diskon_barang').val()
     var total = $('#total_barang').val()
     if (harga=='' || harga < 1) {
@@ -467,6 +493,9 @@ $(document).on('click', '#edit_cart', function(){
     } else if(qty == '' || qty < 1){
         alert('Qty tidak boleh kosong')
         $('#qty_barang').focus()
+    } else if(parseInt(qty) > parseInt(stok_b)){
+        alert('Stok tidak mencukupi')
+        $('#stok_barang').focus()
     } else {
         $.ajax({
             type: 'POST',
@@ -481,6 +510,7 @@ $(document).on('click', '#edit_cart', function(){
                     $('#modal-item-edit').modal('hide');
                 } else {
                     alert('Gagal update data keranjang')
+                    $('#modal-item-edit').modal('hide');
                 }
             }
         })
@@ -546,7 +576,7 @@ $(document).on('click', '#proses_bayar', function () {
                 dataType: 'json',
                 success: function(result){
                     if(result.success == true){
-                        alert('Transaksi berhasi')
+                        alert('Transaksi berhasil')
                         window.open('<?=site_url('penjualan/cetak/')?>' + result.penjualan_id, '_blank')
                     } else {
                         alert('Transaksi gagal ke db')
@@ -577,7 +607,7 @@ $(document).on('click', '#batal_bayar', function() {
         })
         $('#diskon').val(0)
         $('#cash').val(0)
-        $('#pelanggan').val(0).change()
+        $('#pelanggan').val('').change()
         $('#barcode').val('')
         $('#pelanggan').focus()
     }

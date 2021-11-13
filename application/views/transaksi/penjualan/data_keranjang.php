@@ -3,7 +3,7 @@ if ($cart->num_rows()>0) {
     foreach ($cart->result() as $row => $data ) { ?>
         <tr>
             <td><?=$no++?></td>
-            <td><?=$data->barcode?></td>
+            <td class="barcode"><?=$data->barcode?></td>
             <td><?=$data->barang_nama?></td>
             <td class="text-right"><?=$data->cart_harga?></td>
             <td class="text-center"><?=$data->qty?></td>
@@ -14,6 +14,7 @@ if ($cart->num_rows()>0) {
                 data-cartid="<?=$data->cart_id?>"
                 data-barcode="<?=$data->barcode?>"
                 data-produk="<?=$data->barang_nama?>"
+                data-stok="<?=$data->stok?>"
                 data-harga="<?=$data->cart_harga?>"
                 data-qty="<?=$data->qty?>"
                 data-diskon="<?=$data->barang_disc?>"
