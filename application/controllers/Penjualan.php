@@ -23,6 +23,20 @@ class Penjualan extends CI_Controller {
 		);
 		$this->template->load('template', 'transaksi/penjualan/penjualan_form', $data);
 	}
+
+	function get_item()
+	{
+		$barcode = $this->input->post('barcode');
+		$barang = $this->barang_m->get_barcode($barcode)->row();
+
+		if($this->db->affected_rows() > 0) {
+			$params = array("success" => true, "barang" => $barang);
+		} else {
+			$params = array("success" => false);
+		}
+		echo json_encode($params);
+	}
+
 	public function process()
 	{
 		$data = $this->input->post(null, TRUE);

@@ -16,6 +16,18 @@ class barang_m extends CI_Model {
         return $query;
     }
 
+    function get_barcode($barcode = null)
+    {
+        $this->db->from('barang');
+        $this->db->join('kategori','barang.kategori_id = kategori.kategori_id');
+        $this->db->join('satuan','barang.satuan_id = satuan.satuan_id','LEFT');
+        if($barcode != null) {
+            $this->db->where('barcode', $barcode);
+        }
+        $query = $this->db->get();
+        return $query;
+    }
+
     public function add($post)
     {
         $data['barcode'] = $post['barcode'];

@@ -72,7 +72,7 @@
                                     <input type="hidden" id="harga">
                                     <input type="hidden" id="stok">
                                     <input type="hidden" id="qty_cart">
-                                    <input type="text" id="barcode" class="form-control" placeholder="Pilih-->" autofocus>
+                                    <input type="text" id="barcode" class="form-control" placeholder="Input barcode atau pilih-->" autofocus>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-item">
                                             <i class="fa fa-search"></i>
@@ -610,6 +610,34 @@ $(document).on('click', '#batal_bayar', function() {
         $('#pelanggan').val('').change()
         $('#barcode').val('')
         $('#pelanggan').focus()
+    }
+})
+
+$('#barcode').keypress(function (e) {
+    var key = e.which;
+    var barcode = $(this).val();
+    if(key == 13){
+        $.ajax({
+            type: 'POST',
+            url: '<?=site_url('penjualan/get_item')?>',
+            data: {'barcode' : barcode},
+            dataType: 'json',
+            success: function(result){
+                if(result.success == true){
+                    var rbarcode = result.barang.barcode
+                    $('#barang_id').val(result.barang.barang_id);
+                    $('#barcode').val(rbarcode);
+                    $('#harga').val(result.barang.harga);
+                    $('#stok').val(result.barang.stok);
+                    get_cart_qty(rbarcode)
+
+                    $('#add_cart').click();
+                } else {
+                    alert('Produk tidak ditemukan')
+                    $('#barcode').val('');
+                }
+            }
+        })
     }
 })
 
