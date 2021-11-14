@@ -15,9 +15,77 @@
 <!-- Main content -->
 <section class="content">
 
+<div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Filter Data</h3>
+        </div>
+        <div class="box-body">
+            <form action="" method="post">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Tgl</label>
+                                <div class="col-sm-10">
+                                    <input type="date" name="date1" value="<?=@$post['date1']?>" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">s/d</label>
+                                <div class="col-sm-10">
+                                    <input type="date" name="date2" value="<?=@$post['date2']?>" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Pelanggan</label>
+                                <div class="col-sm-9">
+                                    <select name="customer" class="form-control">
+                                        <option value="">- Semua -</option>
+                                        <option value="null" <?=@$post['customer'] == 'null' ? 'selected' : '' ?>>Umum</option>
+                                        <?php foreach($customer as $cst => $data) { ?>
+                                            <option value="<?=$data->pelanggan_id?>" <?=@$post['customer'] == $data->pelanggan_id ? 'selected' : ''?>><?=$data->pelanggan_nama?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Nota</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="invoice" value="<?=@$post['invoice']?>" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button type="submit" name="reset" class="btn btn-flat">Reset</button>
+                            <button type="submit" name="filter" class="btn btn-info btn-flat">
+                                <i class="fa fa-search"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 	<div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data Laporan</h3>
+            <h3 class="box-title">Data Penjualan</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body table-responsive">

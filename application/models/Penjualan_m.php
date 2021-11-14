@@ -121,13 +121,28 @@ class Penjualan_m extends CI_Model {
     
     public function get_sale_pagination($limit = null, $start = null)
     {
+        $post = $this->session->userdata('search');
         $this->db->select('*, user.username as user_name, penjualan.created as penjualan_created');
         $this->db->from('penjualan');
         $this->db->join('pelanggan', 'penjualan.pelanggan_id = pelanggan.pelanggan_id', 'left');
         $this->db->join('user', 'penjualan.user_id = user.user_id');
+
+        if(!empty($post['date1']) && !empty($post['date2'])) {
+            $this->db->where("penjualan.tanggal BETWEEN '$post[date1]' AND '$post[date2]'");
+        }
+        if(!empty($post['customer'])) {
+            if($post['customer'] == 'null') {
+                $this->db->where("penjualan.pelanggan_id IS NULL");
+            } else {
+                $this->db->where("penjualan.pelanggan_id", $post['customer']);
+            }
+        }
+        if(!empty($post['invoice'])) {
+            $this->db->like("invoice", $post['invoice']);
+        }
        
-        $this->db->order_by('tanggal', 'desc');
         $this->db->limit($limit, $start);
+        $this->db->order_by('tanggal', 'desc');
         $query = $this->db->get();
         return $query;
     }
