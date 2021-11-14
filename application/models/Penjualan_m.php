@@ -118,6 +118,20 @@ class Penjualan_m extends CI_Model {
         $query = $this->db->get();
         return $query;
     }
+    
+    public function get_sale_pagination($limit = null, $start = null)
+    {
+        $this->db->select('*, user.username as user_name, penjualan.created as penjualan_created');
+        $this->db->from('penjualan');
+        $this->db->join('pelanggan', 'penjualan.pelanggan_id = pelanggan.pelanggan_id', 'left');
+        $this->db->join('user', 'penjualan.user_id = user.user_id');
+       
+        $this->db->order_by('tanggal', 'desc');
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        return $query;
+    }
+
     public function get_sale_detail($sale_id = null)
     {
         $this->db->select('*, penjualan_detail.harga as detail_harga');

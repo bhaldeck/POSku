@@ -22,55 +22,60 @@
         <!-- /.box-header -->
         <div class="box-body table-responsive">
             <table class="table table-bordered table-striped table-condensed">
-            <thead>
-                <tr>
-                    <th style='width:20px'>#</th>
-                    <th>Nota</th>
-                    <th>Tanggal</th>
-                    <th>Pelanggan</th>
-                    <th>Total</th>
-                    <th>Diskon</th>
-                    <th>Grandtotal</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $no = 1;
-                foreach($row->result() as $key => $data) { ?> 
-                <tr>
-                    <td><?=$no++?></td>
-                    <td><?=$data->invoice?></td>
-                    <td><?=local_date($data->tanggal)?></td>
-                    <td><?=$data->pelanggan_id == null ? "Umum" : $data->pelanggan_nama ?></td>
-                    <td><?=rupiah($data->total_harga)?></td>
-                    <td><?=rupiah($data->diskon)?></td>
-                    <td><?=rupiah($data->harga_final)?></td>
-                    <td class="text-center" width="200px">
-                        <button id="detail" data-target="#modal-detail" data-toggle="modal" class="btn btn-default btn-xs"
-                        data-invoice="<?=$data->invoice?>"
-                        data-date="<?=local_date($data->tanggal)?>"
-                        data-time="<?=substr($data->penjualan_created, 11, 5)?>"
-                        data-customer="<?=$data->pelanggan_id == null ? "Umum" : $data->pelanggan_nama?>"
-                        data-total="<?=rupiah($data->total_harga)?>"
-                        data-discount="<?=rupiah($data->diskon)?>"
-                        data-grandtotal="<?=rupiah($data->harga_final)?>"
-                        data-cash="<?=rupiah($data->tunai)?>"
-                        data-remaining="<?=rupiah($data->kembali)?>"
-                        data-note="<?=$data->keterangan?>"
-                        data-cashier="<?=ucfirst($data->user_name)?>"
-                        data-saleid="<?=$data->penjualan_id?>">
-                        <i class="ion ion-ios-information-outline"></i> Detail</button>
-                        <a href="<?=site_url('penjualan/cetak/'.$data->penjualan_id) ?>" target="_blank" class="btn btn-info btn-xs">
-                            <i class="fa fa-print"></i> Print
-                        </a>
-                        <a href="<?=site_url('penjualan/del/'.$data->penjualan_id) ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus?')" class="btn btn-danger btn-xs">
-                            <i class="fa fa-trash-o"></i> Hapus
-                        </a>
-                    </td>
-                </tr>
-                <?php } ?>              
-            </tbody>
+                <thead>
+                    <tr>
+                        <th style='width:20px'>#</th>
+                        <th>Nota</th>
+                        <th>Tanggal</th>
+                        <th>Pelanggan</th>
+                        <th>Total</th>
+                        <th>Diskon</th>
+                        <th>Grandtotal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $no = $this->uri->segment(3) ? $this->uri->segment(3) +1 : 1 ;
+                    foreach($row->result() as $key => $data) { ?> 
+                    <tr>
+                        <td><?=$no++?></td>
+                        <td><?=$data->invoice?></td>
+                        <td><?=local_date($data->tanggal)?></td>
+                        <td><?=$data->pelanggan_id == null ? "Umum" : $data->pelanggan_nama ?></td>
+                        <td><?=rupiah($data->total_harga)?></td>
+                        <td><?=rupiah($data->diskon)?></td>
+                        <td><?=rupiah($data->harga_final)?></td>
+                        <td class="text-center" width="200px">
+                            <button id="detail" data-target="#modal-detail" data-toggle="modal" class="btn btn-default btn-xs"
+                            data-invoice="<?=$data->invoice?>"
+                            data-date="<?=local_date($data->tanggal)?>"
+                            data-time="<?=substr($data->penjualan_created, 11, 5)?>"
+                            data-customer="<?=$data->pelanggan_id == null ? "Umum" : $data->pelanggan_nama?>"
+                            data-total="<?=rupiah($data->total_harga)?>"
+                            data-discount="<?=rupiah($data->diskon)?>"
+                            data-grandtotal="<?=rupiah($data->harga_final)?>"
+                            data-cash="<?=rupiah($data->tunai)?>"
+                            data-remaining="<?=rupiah($data->kembali)?>"
+                            data-note="<?=$data->keterangan?>"
+                            data-cashier="<?=ucfirst($data->user_name)?>"
+                            data-saleid="<?=$data->penjualan_id?>">
+                            <i class="ion ion-ios-information-outline"></i> Detail</button>
+                            <a href="<?=site_url('penjualan/cetak/'.$data->penjualan_id) ?>" target="_blank" class="btn btn-info btn-xs">
+                                <i class="fa fa-print"></i> Print
+                            </a>
+                            <a href="<?=site_url('penjualan/del/'.$data->penjualan_id) ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus?')" class="btn btn-danger btn-xs">
+                                <i class="fa fa-trash-o"></i> Hapus
+                            </a>
+                        </td>
+                    </tr>
+                    <?php } ?>              
+                </tbody>
             </table>
+        </div>
+        <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <?=$pagination?>
+            </ul>
         </div>
     </div>
 	
@@ -83,7 +88,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Sales Report Detail</h4>
+                <h4 class="modal-title">Detail Laporan Penjualan</h4>
             </div>
             <div class="modal-body table-responsive">
                 <table class="table table-bordered no-margin">
