@@ -86,9 +86,9 @@
                         <tr>
                             <td style="width: 165px"><?=$value->barang_nama ?></td>
                             <td><?=$value->qty?></td>
-                            <td style="text-align:right; width: 60px;"><?=rupiah($value->harga)?></td>
+                            <td style="text-align:right; width: 60px;"><?=rupiah($value->detail_harga)?></td>
                             <td style="text-align:right; width: 60px;">
-                            <?=rupiah(($value->harga - $value->barang_disc) * $value->qty)?>
+                            <?=rupiah(($value->detail_harga - $value->barang_disc) * $value->qty)?>
                         </td>
                         </tr>
 

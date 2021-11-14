@@ -248,7 +248,9 @@
 					</li>
 					<?php if($this->fungsi->user_login()->level_id == 1) { ?>
 					<li class="header">PENGATURAN</li>
-					<li><a href="<?=site_url('user')?>"><i class="fa fa-user"></i><span>User</span></a></li>
+					<li <?= $this->uri->segment(1) == 'user' ? 'class="active"' : "" ?>>
+						<a href="<?=site_url('user')?>"><i class="fa fa-user"></i><span>User</span></a>
+					</li>
 					<?php } ?>
 				</ul>
 			</section>
@@ -270,7 +272,7 @@
 				<b>Version</b> 1.0.0
 			</div>
 			<strong>Copyright &copy; 2020
-				<a href="https://adminlte.io">Toko Udin</a>.</strong> All rights reserved.
+				<a href="#">Toko Udin</a>.</strong> All rights reserved.
 		</footer>
 
 	</div>

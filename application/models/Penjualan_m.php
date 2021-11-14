@@ -114,11 +114,13 @@ class Penjualan_m extends CI_Model {
         if ($id != null) {
             $this->db->where('penjualan_id', $id);
         }
+        $this->db->order_by('tanggal', 'asc');
         $query = $this->db->get();
         return $query;
     }
     public function get_sale_detail($sale_id = null)
     {
+        $this->db->select('*, penjualan_detail.harga as detail_harga');
         $this->db->from('penjualan_detail');
         $this->db->join('barang', 'penjualan_detail.barang_id = barang.barang_id');
         if ($sale_id != null) {
@@ -126,5 +128,11 @@ class Penjualan_m extends CI_Model {
         }
         $query = $this->db->get();
         return $query;
+    }
+
+    public function del_sale($id)
+    {
+        $this->db->where('penjualan_id', $id);
+        $this->db->delete('penjualan');
     }
 }

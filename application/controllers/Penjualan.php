@@ -62,9 +62,8 @@ class Penjualan extends CI_Controller {
 					'penjualan_id' => $penjualan_id,
 					'barang_id' => $value->barang_id,
 					'barang_id' => $value->barang_id,
-					'harga' => $value->harga,
+					'harga' => $value->cart_harga,
 					'qty' => $value->qty,
-					'barang_disc' => $value->barang_disc,
 					'barang_disc' => $value->barang_disc,
 					'total' => $value->total
 					)
@@ -112,5 +111,18 @@ class Penjualan extends CI_Controller {
 			'sale_detail' => $this->penjualan_m->get_sale_detail($id)->result()
 		);
 		$this->load->view('transaksi/penjualan/nota_print', $data);
+	}
+
+	public function del($id)
+	{
+		$this->penjualan_m->del_sale($id);
+		if($this->db->affected_rows() > 0) {
+			echo "<script>alert('Data penjualan berhasil dihapus');
+			window.location='".site_url('laporan/penjualan')."';</script>";
+		} else {
+			echo "<script>alert('Data penjualan gagal dihapus');
+			window.location='".site_url('laporan/penjualan')."';</script>";
+		}
+
 	}
 }
