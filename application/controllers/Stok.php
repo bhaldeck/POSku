@@ -14,6 +14,7 @@ class stok extends CI_Controller {
 
     public function stock_in_index()
     {
+        $data['title'] = 'Stok Barang Masuk';
         $data['row'] = $this->stok_m->get_stok_in();
         $this->template->load('template', 'transaksi/stok_in/stok_in_data', $data);
     }
@@ -22,7 +23,11 @@ class stok extends CI_Controller {
     {
         $barang = $this->barang_m->get()->result();
         $supplier = $this->supplier_m->get()->result();
-        $data = ['barang' => $barang, 'supplier' => $supplier];
+        $data = [
+            'title' => 'Tambah Stok Barang Masuk',
+            'barang' => $barang, 
+            'supplier' => $supplier
+        ];
         $this->template->load('template', 'transaksi/stok_in/stok_in_form', $data);
     }
 
@@ -43,6 +48,7 @@ class stok extends CI_Controller {
 
     public function stock_out_index()
     {
+        $data['title'] = 'Stok Barang Keluar';
         $data['row'] = $this->stok_m->get_stok_out();
         $this->template->load('template', 'transaksi/stok_out/stok_out_data',$data);
     }
@@ -50,7 +56,10 @@ class stok extends CI_Controller {
     public function stock_out_add()
     {
         $barang = $this->barang_m->get()->result();
-        $data = ['barang' => $barang];
+        $data = [
+            'title' => 'Tambah Stok Barang Keluar',
+            'barang' => $barang
+        ];
         $this->template->load('template', 'transaksi/stok_out/stok_out_form', $data);
     }
 

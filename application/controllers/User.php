@@ -13,6 +13,7 @@ class User extends CI_Controller {
 
 	public function index()
 	{
+        $data['title'] = 'User';
         $data['row'] = $this->user_m->get();
 		$this->template->load('template', 'user/user_data', $data);
     }
@@ -36,7 +37,8 @@ class User extends CI_Controller {
         $this->form_validation->set_error_delimiters('<span class="help-block">', '</span>');
 
         if ($this->form_validation->run() == FALSE) {
-                $this->template->load('template', 'user/user_add');
+                $data['title'] = 'Tambah User';
+                $this->template->load('template', 'user/user_add',$data);
             } else {
                 $post = $this->input->post(null, TRUE);
                 $this->user_m->add($post);
@@ -77,6 +79,7 @@ class User extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
                 $query = $this->user_m->get($id);
                 if ($query->num_rows() > 0) {
+                    $data['title'] = 'Edit User';
                     $data['row'] = $query->row();
                     $this->template->load('template', 'user/user_edit', $data);
                 } else {

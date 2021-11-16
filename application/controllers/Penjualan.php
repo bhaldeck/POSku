@@ -16,6 +16,7 @@ class Penjualan extends CI_Controller {
 		$barang = $this->barang_m->get()->result();
 		$cart = $this->penjualan_m->get_cart();
 		$data = array(
+			'title' => 'Kasir Penjualan',
 			'pelanggan' => $pelanggan,
 			'barang' => $barang,
 			'cart' => $cart,

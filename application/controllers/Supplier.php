@@ -13,6 +13,7 @@ class Supplier extends CI_Controller {
 
 	public function index()
 	{
+		$data['title'] = 'Supplier';
 		$data['row'] = $this->supplier_m->get();
 		$this->template->load('template', 'supplier/supplier_data', $data);
 	}
@@ -27,6 +28,7 @@ class Supplier extends CI_Controller {
 		$supplier->telepon = null;
 		$supplier->keterangan = null;
 		$data = array(
+			'title' => 'Tambah Supplier',
 			'page' => 'tambah',
 			'row' => $supplier
 		);
@@ -41,6 +43,7 @@ class Supplier extends CI_Controller {
 		if ($query->num_rows() > 0) {
 			$supplier = $query->row();
 			$data = array(
+				'title' => 'Edit Supplier',
 				'page' => 'edit',
 				'row' => $supplier
 			);

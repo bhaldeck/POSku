@@ -13,6 +13,7 @@ class Kategori extends CI_Controller {
 
 	public function index()
 	{
+		$data['title'] = 'Kategori';
 		$data['row'] = $this->kategori_m->get();
 		$this->template->load('template', 'produk/kategori/kategori_data', $data);
 	}
@@ -23,6 +24,7 @@ class Kategori extends CI_Controller {
 		$kategori->kategori_id = null;
 		$kategori->kategori_nama = null;
 		$data = array(
+			'title' => 'Tambah Kategori',
 			'page' => 'tambah',
 			'row' => $kategori
 		);
@@ -37,6 +39,7 @@ class Kategori extends CI_Controller {
 		if ($query->num_rows() > 0) {
 			$kategori = $query->row();
 			$data = array(
+				'title' => 'Edit Kategori',
 				'page' => 'edit',
 				'row' => $kategori
 			);

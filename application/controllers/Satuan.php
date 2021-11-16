@@ -13,6 +13,7 @@ class satuan extends CI_Controller {
 
 	public function index()
 	{
+		$data['title'] = 'Satuan';
 		$data['row'] = $this->satuan_m->get();
 		$this->template->load('template', 'produk/satuan/satuan_data', $data);
 	}
@@ -23,6 +24,7 @@ class satuan extends CI_Controller {
 		$satuan->satuan_id = null;
 		$satuan->satuan_nama = null;
 		$data = array(
+			'title' => 'Tambah Satuan',
 			'page' => 'tambah',
 			'row' => $satuan
 		);
@@ -37,6 +39,7 @@ class satuan extends CI_Controller {
 		if ($query->num_rows() > 0) {
 			$satuan = $query->row();
 			$data = array(
+				'title' => 'Edit Satuan',
 				'page' => 'edit',
 				'row' => $satuan
 			);

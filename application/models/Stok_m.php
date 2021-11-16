@@ -115,4 +115,23 @@ class Stok_m extends CI_Model {
         $query = $this->db->get();
         return $query;
     }
+
+    public function get_stokout_filter()
+    {
+        $post = $this->session->userdata('search');
+        $this->db->from('stok');
+        $this->db->join('barang','stok.barang_id = barang.barang_id');
+        $this->db->where('tipe', 'out');
+
+        if(!empty($post['date1']) && !empty($post['date2'])) {
+            $this->db->where("stok.tanggal BETWEEN '$post[date1]' AND '$post[date2]'");
+        }
+        if(!empty($post['barcode'])) {
+            $this->db->like("barcode", $post['barcode']);
+        }
+
+        $this->db->order_by('tanggal', 'desc');
+        $query = $this->db->get();
+        return $query;
+    }
 }

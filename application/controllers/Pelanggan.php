@@ -13,6 +13,7 @@ class Pelanggan extends CI_Controller {
 
 	public function index()
 	{
+		$data['title'] = 'Pelanggan';
 		$data['row'] = $this->pelanggan_m->get();
 		$this->template->load('template', 'pelanggan/pelanggan_data', $data);
 	}
@@ -26,6 +27,7 @@ class Pelanggan extends CI_Controller {
 		$pelanggan->alamat = null;
 		$pelanggan->telepon = null;
 		$data = array(
+			'title' => 'Tambah Pelanggan',
 			'page' => 'tambah',
 			'row' => $pelanggan
 		);
@@ -40,6 +42,7 @@ class Pelanggan extends CI_Controller {
 		if ($query->num_rows() > 0) {
 			$pelanggan = $query->row();
 			$data = array(
+				'title' => 'Edit Pelanggan',
 				'page' => 'edit',
 				'row' => $pelanggan
 			);

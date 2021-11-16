@@ -1,6 +1,6 @@
 <section class="content-header">
 	<h1>
-		Laporan Stok Masuk
+		Laporan Stok Keluar
 	</h1>
 	<ol class="breadcrumb">
 		<li>
@@ -21,7 +21,7 @@
         <div class="box-body">
             <form action="" method="post">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Tgl</label>
@@ -31,28 +31,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">s/d</label>
                                 <div class="col-sm-10">
                                     <input type="date" name="date2" id="date2" value="<?=@$post['date2']?>" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Supplier</label>
-                                <div class="col-sm-9">
-                                    <select name="supplier" class="form-control">
-                                        <option value="">- Semua -</option>
-                                        <?php foreach($supplier as $supp => $data) { ?>
-                                            <option value="<?=$data->supplier_id?>" <?=@$post['supplier'] == $data->supplier_id ? 'selected' : ''?>><?=$data->supplier_nama?></option>
-                                        <?php } ?>
-                                        <option value="null" <?=@$post['supplier'] == 'null' ? 'selected' : ''?> >Lain-lain...</option>
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -99,8 +83,6 @@
                         <th>Nama Produk</th>
                         <th style='width:20px'>Jumlah</th>
                         <th>Keterangan</th>
-                        <th>Supplier</th>
-                        <!-- <th style='width:100px'>Aksi</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -113,7 +95,6 @@
                         <td><?=$data->barang_nama?></td>
                         <td><?=$data->qty?></td>
                         <td><?=$data->detail?></td>
-                        <td><?=$data->supplier_id == null ? "" : $data->supplier_nama?></td>
                     </tr>
                     <?php } ?>
                 </tbody>

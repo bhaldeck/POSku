@@ -14,8 +14,8 @@ class barang extends CI_Controller {
 
 	public function index()
 	{
-        $data['row'] = $this->barang_m->get();
         $data['title'] = 'Barang';
+        $data['row'] = $this->barang_m->get();
 		$this->template->load('template', 'produk/barang/barang_data', $data);
     }
     
@@ -29,6 +29,7 @@ class barang extends CI_Controller {
 		$barang->satuan_id = null;
 		$barang->harga = null;
 		$data = array (
+            'title' => 'Tambah Barang',
             'page' => 'tambah',
             'barang' => $barang,
 			'kategori' => $this->kategori_m->get(),
@@ -46,6 +47,7 @@ class barang extends CI_Controller {
         if ($query->num_rows() > 0) {
             $barang = $query->row();
             $data = array(
+                'title' => 'Edit Barang',
                 'page' => 'edit',
                 'barang' => $barang,
                 'kategori' => $this->kategori_m->get(),

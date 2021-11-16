@@ -22,31 +22,31 @@
         <div class="box-body">
             <form action="" method="post">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Tgl</label>
+                                <label class="col-sm-1 control-label">Tgl</label>
                                 <div class="col-sm-10">
                                     <input type="date" name="date1" id="date1" value="<?=@$post['date1']?>" class="form-control">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">s/d</label>
+                                <label class="col-sm-1 control-label">s/d</label>
                                 <div class="col-sm-10">
                                     <input type="date" name="date2" id="date2" value="<?=@$post['date2']?>" class="form-control">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Pelanggan</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <select name="customer" class="form-control">
                                         <option value="">- Semua -</option>
                                         <option value="null" <?=@$post['customer'] == 'null' ? 'selected' : '' ?>>Umum</option>
@@ -58,10 +58,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Nota</label>
+                                <label class="col-sm-2 control-label">Nota</label>
                                 <div class="col-sm-9">
                                     <input type="text" name="invoice" value="<?=@$post['invoice']?>" class="form-control">
                                 </div>

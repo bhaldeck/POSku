@@ -85,4 +85,26 @@ class Laporan extends CI_Controller {
         ];
         $this->template->load('template', 'laporan/laporan_stokin', $data);
     }
+
+    public function stokout()
+    {
+        $this->load->model('stok_m');
+
+        if(isset($_POST['reset'])) {
+            $this->session->unset_userdata('search');
+        }
+        if(isset($_POST['filter'])) {
+            $post = $this->input->post(null, TRUE);
+            $this->session->set_userdata('search', $post);
+        } else {
+            $post = $this->session->userdata('search');
+        }
+        
+        $data = [ 
+            'title' => 'Laporan Stok Keluar',
+            'post' => $post,
+            'row' => $this->stok_m->get_stokout_filter()
+        ];
+        $this->template->load('template', 'laporan/laporan_stokout', $data);
+    }
 }
