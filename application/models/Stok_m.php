@@ -73,4 +73,46 @@ class Stok_m extends CI_Model {
         $this->db->where('stok_id', $id);
 		$this->db->delete('stok');
     }
+
+    public function get_stokin($id = null)
+    {
+        $this->db->from('stok');
+        $this->db->join('barang','stok.barang_id = barang.barang_id');
+        $this->db->join('supplier','stok.supplier_id = supplier.supplier_id','LEFT');
+        if($id != null) {
+            $id_in = array('stok_id' => $id, 'tipe' => 'in');
+            $this->db->where($id_in);
+        }
+        $this->db->where('tipe', 'in');
+        $this->db->order_by('tanggal', 'desc');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    public function get_stokin_filter()
+    {
+        $post = $this->session->userdata('search');
+        $this->db->from('stok');
+        $this->db->join('barang','stok.barang_id = barang.barang_id');
+        $this->db->join('supplier','stok.supplier_id = supplier.supplier_id','LEFT');
+        $this->db->where('tipe', 'in');
+
+        if(!empty($post['date1']) && !empty($post['date2'])) {
+            $this->db->where("stok.tanggal BETWEEN '$post[date1]' AND '$post[date2]'");
+        }
+        if(!empty($post['supplier'])) {
+            if($post['supplier'] == 'null') {
+                $this->db->where("supplier.supplier_id IS NULL");
+            } else {
+                $this->db->where("supplier.supplier_id", $post['supplier']);
+            }
+        }
+        if(!empty($post['barcode'])) {
+            $this->db->like("barcode", $post['barcode']);
+        }
+
+        $this->db->order_by('tanggal', 'desc');
+        $query = $this->db->get();
+        return $query;
+    }
 }

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AdminLTE 2 | Blank Page</title>
+	<title>Posku | <?= $title ?></title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<!-- Bootstrap 3.3.7 -->
@@ -14,7 +14,9 @@
 	<!-- Ionicons -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/Ionicons/css/ionicons.min.css">
 	<!-- DataTables -->
-	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+	<link rel="stylesheet" href="<?=base_url()?>assets/plugins/DataTables/DataTables-1.11.3/css/jquery.dataTables.min.css">
+	<!-- Button DataTables -->
+	<link rel="stylesheet" href="<?=base_url()?>assets/plugins/DataTables/Buttons-2.0.1/css/buttons.dataTables.min.css">
 	<!-- Theme style -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/AdminLTE.min.css">
 	<!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -61,38 +63,7 @@
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
 						<!-- Tasks: style can be found in dropdown.less -->
-						<li class="dropdown tasks-menu">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="fa fa-flag-o"></i>
-								<span class="label label-danger">9</span>
-							</a>
-							<ul class="dropdown-menu">
-								<li class="header">You have 9 tasks</li>
-								<li>
-									<!-- inner menu: contains the actual data -->
-									<ul class="menu">
-										<li>
-											<!-- Task item -->
-											<a href="#">
-												<h3>
-													Design some buttons
-													<small class="pull-right">20%</small>
-												</h3>
-												<div class="progress xs">
-													<div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-														<span class="sr-only">20% Complete</span>
-													</div>
-												</div>
-											</a>
-										</li>
-										<!-- end task item -->
-									</ul>
-								</li>
-								<li class="footer">
-									<a href="#">View all tasks</a>
-								</li>
-							</ul>
-						</li>
+						
 						<!-- User Account: style can be found in dropdown.less -->
 						<li class="dropdown user user-menu">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -145,17 +116,6 @@
 						</a>
 					</div>
 				</div>
-				<!-- search form -->
-				<form action="#" method="get" class="sidebar-form">
-					<div class="input-group">
-						<input type="text" name="q" class="form-control" placeholder="Search...">
-						<span class="input-group-btn">
-							<button type="submit" name="search" id="search-btn" class="btn btn-flat">
-								<i class="fa fa-search"></i>
-							</button>
-						</span>
-					</div>
-				</form>
 				<!-- /.search form -->
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu" data-widget="tree">
@@ -239,10 +199,13 @@
 						</a>
 						<ul class="treeview-menu">
 							<li <?= $this->uri->segment(1) == 'laporan' && $this->uri->segment(2) == 'penjualan' ? 'class="active"' : "" ?>>
-								<a href="<?=site_url('laporan/penjualan')?>"><i class="fa fa-circle-o"></i> Sales</a>
+								<a href="<?=site_url('laporan/penjualan')?>"><i class="fa fa-circle-o"></i> Laporan Penjualan</a>
 							</li>
-							<li <?= $this->uri->segment(1) == 'laporan' && $this->uri->segment(2) == 'stok' ? 'class="active"' : "" ?>>
-								<a href="<?=site_url('laporan/stok')?>"><i class="fa fa-circle-o"></i> Stocks</a>
+							<li <?= $this->uri->segment(1) == 'laporan' && $this->uri->segment(2) == 'stokin' ? 'class="active"' : "" ?>>
+								<a href="<?=site_url('laporan/stokin')?>"><i class="fa fa-circle-o"></i> Laporan Stok Masuk</a>
+							</li>
+							<li <?= $this->uri->segment(1) == 'laporan' && $this->uri->segment(2) == 'stokout' ? 'class="active"' : "" ?>>
+								<a href="<?=site_url('laporan/stokout')?>"><i class="fa fa-circle-o"></i> Laporan Stok Keluar</a>
 							</li>
 						</ul>
 					</li>
@@ -281,9 +244,15 @@
 	
 	<!-- Bootstrap 3.3.7 -->
 	<script src="<?=base_url()?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- jquery -->
+	<script src="<?=base_url()?>assets/bower_components/jquery/dist/jquery.min.js"></script>
 	<!-- DataTables -->
-	<script src="<?=base_url()?>assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-	<script src="<?=base_url()?>assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+	<script src="<?=base_url()?>assets/plugins/DataTables/DataTables-1.11.3/js/jquery.dataTables.min.js"></script>
+	<!-- Button DataTables -->
+	<script src="<?=base_url()?>assets/plugins/DataTables/Buttons-2.0.1/js/dataTables.buttons.min.js"></script>
+	<script src="<?=base_url()?>assets/plugins/DataTables/Buttons-2.0.1/js/buttons.flash.min.js"></script>
+	<script src="<?=base_url()?>assets/plugins/DataTables/Buttons-2.0.1/js/buttons.html5.min.js"></script>
+	<script src="<?=base_url()?>assets/plugins/DataTables/Buttons-2.0.1/js/buttons.print.min.js"></script>
 	<!-- SlimScroll -->
 	<script src="<?=base_url()?>assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->

@@ -53,6 +53,7 @@ class Laporan extends CI_Controller {
         $data['customer'] = $this->pelanggan_m->get()->result();
 		$data['row'] = $this->penjualan->get_sale_pagination($config['per_page'], $this->uri->segment(3));
         $data['post'] = $post;
+        $data['title'] = 'Laporan Penjualan';
 		$this->template->load('template', 'laporan/laporan_penjualan', $data);
 	}
 
@@ -60,5 +61,28 @@ class Laporan extends CI_Controller {
     {
         $detail = $this->penjualan->get_sale_detail($sale_id)->result();
         echo json_encode($detail);
+    }
+
+    public function stokin()
+    {
+        $this->load->model(['stok_m', 'supplier_m']);
+
+        if(isset($_POST['reset'])) {
+            $this->session->unset_userdata('search');
+        }
+        if(isset($_POST['filter'])) {
+            $post = $this->input->post(null, TRUE);
+            $this->session->set_userdata('search', $post);
+        } else {
+            $post = $this->session->userdata('search');
+        }
+        
+        $data = [ 
+            'title' => 'Laporan Stok Masuk',
+            'supplier' =>$this->supplier_m->get()->result(),
+            'post' => $post,
+            'row' => $this->stok_m->get_stokin_filter()
+        ];
+        $this->template->load('template', 'laporan/laporan_stokin', $data);
     }
 }

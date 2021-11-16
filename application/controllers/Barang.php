@@ -15,59 +15,8 @@ class barang extends CI_Controller {
 	public function index()
 	{
         $data['row'] = $this->barang_m->get();
+        $data['title'] = 'Barang';
 		$this->template->load('template', 'produk/barang/barang_data', $data);
-    }
-    
-    public function add0()
-	{
-        $this->rule();
-        
-		$data = array (
-			'kategori' => $this->kategori_m->get(),
-			'satuan' => $this->satuan_m->get(),
-		);
-		
-        if ($this->form_validation->run() == FALSE) {
-                $this->template->load('template', 'produk/barang/barang_add',$data);
-            } else {
-                $post = $this->input->post(null, TRUE);
-                $this->barang_m->add($post);
-                if($this->db->affected_rows() > 0) {
-                    echo "<script>alert('Data berhasil disimpan')</script>";
-                }
-                echo "<script>window.location='".site_url('barang')."'</script>";
-            }
-    }
-
-    public function edit0($id)
-	{
-        $this->rules();
-        if ($this->form_validation->run() == FALSE) {
-            $query = $this->barang_m->get($id);
-            if ($query->num_rows() > 0) {
-                //$query_kat = $this->kategori_m->get();
-                $barang = $query->row();
-                $data = array(
-                    'page' => 'edit',
-                    'barang' => $barang,
-                    'kategori' => $this->kategori_m->get(),
-                    'satuan' => $this->satuan_m->get()
-                );
-                $this->template->load('template','produk/barang/barang_edit',$data);
-            } else {
-                echo "<script>alert('Data tidak ditemukan');";
-                echo "window.location='".site_url('barang')."';</script>";
-            }
-        } else {
-            $post = $this->input->post(null, TRUE);
-            $this->barang_m->edit($post);
-
-            if($this->db->affected_rows() > 0) {
-                echo "<script>alert('Perubahan data berhasil disimpan')</script>";
-            }
-            echo "<script>window.location='".site_url('barang')."'</script>";
-        }
-        
     }
     
     public function add()
@@ -95,7 +44,6 @@ class barang extends CI_Controller {
         // end of set rules error
         $query = $this->barang_m->get($id);
         if ($query->num_rows() > 0) {
-            //$query_kat = $this->kategori_m->get();
             $barang = $query->row();
             $data = array(
                 'page' => 'edit',
@@ -129,7 +77,6 @@ class barang extends CI_Controller {
                             $post['gambar'] = $this->upload->data('file_name');
                             $this->barang_m->add($post);
                             if($this->db->affected_rows() > 0) {
-                                echo "<script>alert('Data berhasil disimpan')</script>";
                                 $this->session->set_flashdata('success', 'Data berhasil disimpan');
                             }
                             echo "<script>window.location='".site_url('barang')."'</script>";
@@ -142,7 +89,7 @@ class barang extends CI_Controller {
                         $post['gambar'] = null;
                         $this->barang_m->add($post);
                         if($this->db->affected_rows() > 0) {
-                            echo "<script>alert('Data berhasil disimpan')</script>";
+                            $this->session->set_flashdata('success', 'Data berhasil disimpan');
                         }
                         echo "<script>window.location='".site_url('barang')."'</script>";
                     }
@@ -165,7 +112,6 @@ class barang extends CI_Controller {
                         $post['gambar'] = $this->upload->data('file_name');
                         $this->barang_m->edit($post);
                         if($this->db->affected_rows() > 0) {
-                            echo "<script>alert('Data berhasil disimpan')</script>";
                             $this->session->set_flashdata('success', 'Data berhasil disimpan');
                         }
                         echo "<script>window.location='".site_url('barang')."'</script>";
@@ -178,7 +124,6 @@ class barang extends CI_Controller {
                     $post['gambar'] = null;
                     $this->barang_m->edit($post);
                     if($this->db->affected_rows() > 0) {
-                        echo "<script>alert('Data berhasil disimpan')</script>";
                         $this->session->set_flashdata('success', 'Data berhasil disimpan');
                     }
                     echo "<script>window.location='".site_url('barang')."'</script>";
@@ -199,6 +144,8 @@ class barang extends CI_Controller {
         
         if($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data Berhasil dihapus');
+        } else {
+            $this->session->set_flashdata('error', 'Data tidak bisa dihapus');
         }
         redirect('barang');
     }

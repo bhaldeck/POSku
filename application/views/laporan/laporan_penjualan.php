@@ -15,7 +15,7 @@
 <!-- Main content -->
 <section class="content">
 
-<div class="box">
+    <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title">Filter Data</h3>
         </div>
@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Tgl</label>
                                 <div class="col-sm-10">
-                                    <input type="date" name="date1" value="<?=@$post['date1']?>" class="form-control">
+                                    <input type="date" name="date1" id="date1" value="<?=@$post['date1']?>" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">s/d</label>
                                 <div class="col-sm-10">
-                                    <input type="date" name="date2" value="<?=@$post['date2']?>" class="form-control">
+                                    <input type="date" name="date2" id="date2" value="<?=@$post['date2']?>" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -72,8 +72,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="pull-right">
-                            <button type="submit" name="reset" class="btn btn-flat">Reset</button>
-                            <button type="submit" name="filter" class="btn btn-info btn-flat">
+                            <button type="submit" name="reset" class="btn btn-flat">
+                                <i class="fa fa-refresh"></i> Reset
+                            </button>
+                            <button type="submit" name="filter" id="filter" class="btn btn-info btn-flat">
                                 <i class="fa fa-search"></i> Filter
                             </button>
                         </div>
@@ -203,6 +205,18 @@
 </div>
 
 <script>
+$(document).on('click', '#filter', function () {
+    var date1 = $('#date1').val()
+    var date2 = $('#date2').val()
+
+    if(!date1 && date2){
+        alert('Pilih tanggal awal')
+    } 
+    if(date1 && !date2){
+        alert('Pilih tanggal akhir')
+    } 
+})
+
 $(document).on('click', '#detail', function() {
     $('#invoice').text($(this).data('invoice'))
     $('#cust').text($(this).data('customer'))

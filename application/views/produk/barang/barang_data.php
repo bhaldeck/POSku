@@ -46,7 +46,7 @@
                         <td><?=$no++?></td>
                         <td>
                             <?=$data->barcode?><br>
-                            <a href="<?=site_url('barang/barcode/'.$data->barang_id) ?>" target="_blank" class="btn btn-default btn-xs">
+                            <a href="<?=site_url('barang/barcode/'.$data->barang_id) ?>" class="btn btn-default btn-xs">
                                 Generate<i class="fa fa-barcode"></i>
                             </a>
                         </td>

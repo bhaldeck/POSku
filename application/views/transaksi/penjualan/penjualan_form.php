@@ -584,8 +584,6 @@ $(document).on('click', '#proses_bayar', function () {
                     location.href = '<?=site_url('penjualan')?>'
                 }
             })
-        } else {
-            
         }
     }
 })
